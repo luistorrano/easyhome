@@ -1,0 +1,35 @@
+{% load staticfiles %}
+{% block html %}
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block head %}
+    <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            {% block title %}
+            <link rel="shortcut icon" href="{% static 'images/Logo.png' %}" type="image/x-icon" />        
+            <title>Easyhome</title>
+            {% endblock %}
+
+            <!-- Bootstrap CSS -->
+            <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+            <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        </head>
+        
+    {% endblock %}
+
+    {% block body %}
+        <body>
+            {% block content %}{% endblock %}
+                <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
+                <script src="{% static 'js/jquery.js' %}"></script>
+                <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            </div>
+        </body>
+    {% endblock %}
+
+</html>
+{% endblock %}
