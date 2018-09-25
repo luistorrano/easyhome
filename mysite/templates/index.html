@@ -1,7 +1,56 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
-    <div class="container">
-        
-        
+<div class="row">
+    <div class="col-xs-12">
+       Linha com 12 colunas em qualquer dispositivo
     </div>
+ </div>
+
+<form id="formlatlng" method="POST" action="{% url 'estudante' %}">
+ <div class="row">
+    <div class="col-md-6 col-sm-12">
+       <a type="button" class="btn btn-light" style="float: right;">Proprietário</a>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <button type="submit" id="estudante" class="btn btn-light" style="float: left;">Estudante</button>
+     </div>
+     <input type="hidden" name="latitude" id="latitude" style="display:hidden;"></input>
+     <input type="hidden"  name="longitude" id="longitude" style="display:hidden;"></input>
+ </div>
+</form>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
+  }
+function showPosition(position)
+  {
+  $('#latitude').val(position.coords.latitude);
+  $('#longitude').val(position.coords.longitude);
+  }
+window.onload = getLocation;
+
+
+var form = $('#formlatlng');
+form.submit(function(){
+$.ajax({
+    type: $(this).attr('method'),
+    url: form.attr('action'),
+    data: form.serialize(),
+    success: function (data) {
+      console.log(data)
+    }
+  });
+});
+  </script>
 {% endblock %}
+

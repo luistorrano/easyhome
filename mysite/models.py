@@ -1,8 +1,12 @@
 from django.db import models
+from localflavor.br.br_states import STATE_CHOICES
+from geoposition.fields import GeopositionField
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
 
-class Usuario(models.Model):
+class Usuario(AbstractUser):
     
     GENEROS = (
         ('M', 'Masculino'),
@@ -13,19 +17,40 @@ class Usuario(models.Model):
         ('P', 'Proprietario'),
         ('E', 'Estudante'),
     )
-
-    nome = models.CharField(
-        'Nome',
-        max_length=200,
-        blank=False,
-        null=False
-    )
     endereco = models.CharField(
-        'Endereço',
-        max_length=400,
-        blank=False,
-        null=False
-    )
+        max_length=255,
+        verbose_name=u'Endereço',
+        help_text='Para uma melhor localização no mapa, \
+        preencha sem abreviações. \
+        Ex: Rua taquari,  100'
+        )
+    mensagem = models.CharField(
+        max_length=10000,
+        verbose_name='Mensagem',
+        help_text='Digite uma mensagem'
+        )
+    cidade_estudante = models.CharField(
+        max_length=255,
+        default='sp',
+        null=True,
+        blank=True,
+        help_text="Para uma melhor localização no mapa, \
+        preencha sem abreviações. Ex: Belo Horizonte"
+        )
+    estado = models.CharField(
+        max_length=2,
+        null=True, 
+        blank=True,
+        choices=STATE_CHOICES
+        )
+    latitude = models.DecimalField(
+        max_digits=30,
+        decimal_places=28
+        )
+    longitude = models.DecimalField(
+        max_digits=30,
+        decimal_places=28
+        )
     telefone = models.CharField(
         'Telefone',
         max_length=15
@@ -37,6 +62,7 @@ class Usuario(models.Model):
         null=False
         )
     cpf = models.CharField(
+    
         'CPF',
         max_length=14,
         blank=False,
@@ -54,11 +80,6 @@ class Usuario(models.Model):
         blank=False,
         null=False
         )
-    email = models.EmailField(
-        'E-mail',
-        blank=False,
-        null=False
-        )
     imagem = models.ImageField(
         'Fotos',
         upload_to='imagens/',
@@ -71,7 +92,7 @@ class Usuario(models.Model):
         )
     def __str__(self):
     
-        return self.nome
+        return self.email
 
 class Republica(models.Model):
     
@@ -87,8 +108,11 @@ class Republica(models.Model):
         null=False
         )
     endereco = models.CharField(
-        'Endereço',
-        max_length=200,
+        max_length=255,
+        verbose_name=u'Endereço',
+        help_text='Para uma melhor localização no mapa, \
+        preencha sem abreviações. \
+        Ex: Rua taquari,  100'
         )
     slug = models.SlugField(
         'Atalho'
@@ -121,6 +145,20 @@ class Republica(models.Model):
         auto_now_add=True
         )
 
+    estado = models.CharField(
+        max_length=2,
+        null=True, 
+        blank=True,
+        choices=STATE_CHOICES
+        )
+    latitude = models.DecimalField(
+        max_digits=30,
+        decimal_places=28
+        )
+    longitude = models.DecimalField(
+        max_digits=30,
+        decimal_places=28
+        )
     def __str__(self):
     
         return self.nome

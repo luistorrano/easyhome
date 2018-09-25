@@ -1,9 +1,10 @@
 {% load staticfiles %}
+{% load bootstrap4 %}
 {% block html %}
-    <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="pt-br">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0, shrink-to-fit=no">
     {% block head %}
     <head>
             <meta charset="utf-8">
@@ -15,21 +16,49 @@
             {% endblock %}
 
             <!-- Bootstrap CSS -->
-            <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+            <link href="{% static 'bootstrap-4.1.3/dist/css/bootstrap.css' %}" rel="stylesheet">
             <link href="{% static 'css/style.css' %}" rel="stylesheet">
-        </head>
+    </head>
         
     {% endblock %}
-
     {% block body %}
         <body>
-            {% block content %}{% endblock %}
+                <div class="container ">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                        <a class="navbar-brand" href="#"> Easyhome </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSite">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> Inicio </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="#"> Estudante </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="#"> Locador </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                        <a class="nav-link" href="#"> Sobre </a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="#"> Contato </a>
+                                </li>
+                            </ul>
+                        </div>
+                </nav>
+                {% block content %}
+                {% endblock %}
+            </div>
                 <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
-                <script src="{% static 'js/jquery.js' %}"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="{% static 'js/popper.min.js' %}"></script>
                 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
             </div>
         </body>
     {% endblock %}
-
 </html>
 {% endblock %}
