@@ -3,22 +3,34 @@
 {% block content %}
 
         <div class="row">  
-                <div class='col-md-2'>2</div>
+                <div class='col-md-2'></div>
                 <div class="col-md-8">
-                        <div class="mapa" id="mapa" style="height: 500px; width: 700px"></div>
+                        <div class="mapa" id="mapa" style="border-radius:1%;"></div>
                 </div>
-                <div class='col-md-2'> 2</div>
+                <div class='col-md-2'></div>
         </div>
         <div class="row">
-                
+                <div class="col-md-8">
+                {% for republica in republicas %}
+                <section>
+                nome : {{republica.nome}}<br/>
+                endereco:      {{republica.endereco}}<br/>
+                estado:         {{republica.estado}}<br/>
+                genero:        {{republica.genero}}<br/>
+                qtd_vagas:       {{republica.qtd_vagas}}<br/>
+                tipo_imovel:        {{republica.tipo_imovel}}<br/>
+        </section>
 
+                {% endfor %}
+                
+                </div>
         </div>
 
     <!-- Maps API Javascript -->
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U"></script>
     <script src="{% static 'js/mapa.js' %}"></script>
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript">
 
@@ -32,7 +44,7 @@
              
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
-                            title: "Meu ponto personalizado! :-D",
+                            title: '',
                             map: map
                         });
              
@@ -42,5 +54,8 @@
              
             }
             carregarPontos();
+
+            $(window).resize(function(){ 
+                $('#mapa').height($( window ).height());
         </script>
    {% endblock %}

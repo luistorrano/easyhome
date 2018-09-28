@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite',
-    'bootstrap4',
 ]
 
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U'

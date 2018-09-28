@@ -2,9 +2,8 @@ from django.db import models
 from localflavor.br.br_states import STATE_CHOICES
 from geoposition.fields import GeopositionField
 from django.contrib.auth.models import AbstractUser
-
-
-# Create your models here.
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 class Usuario(AbstractUser):
     
@@ -17,6 +16,11 @@ class Usuario(AbstractUser):
         ('P', 'Proprietario'),
         ('E', 'Estudante'),
     )
+    nome = models.CharField(
+        max_length=255,
+        verbose_name=u'Nome',
+        help_text='Digite o seu nome'
+        )
     endereco = models.CharField(
         max_length=255,
         verbose_name=u'Endereço',
@@ -27,9 +31,11 @@ class Usuario(AbstractUser):
     mensagem = models.CharField(
         max_length=10000,
         verbose_name='Mensagem',
-        help_text='Digite uma mensagem'
+        help_text='Digite uma mensagem',
+        null=True,
+        blank=True
         )
-    cidade_estudante = models.CharField(
+    cidade = models.CharField(
         max_length=255,
         default='sp',
         null=True,
@@ -43,14 +49,6 @@ class Usuario(AbstractUser):
         blank=True,
         choices=STATE_CHOICES
         )
-    latitude = models.DecimalField(
-        max_digits=30,
-        decimal_places=28
-        )
-    longitude = models.DecimalField(
-        max_digits=30,
-        decimal_places=28
-        )
     telefone = models.CharField(
         'Telefone',
         max_length=15
@@ -62,7 +60,6 @@ class Usuario(AbstractUser):
         null=False
         )
     cpf = models.CharField(
-    
         'CPF',
         max_length=14,
         blank=False,
@@ -90,6 +87,10 @@ class Usuario(AbstractUser):
         'Registrado em',
         auto_now_add=True
         )
+    email = models.EmailField(
+        max_length=254,
+        unique=True
+        )
     def __str__(self):
     
         return self.email
@@ -107,6 +108,9 @@ class Republica(models.Model):
         blank=True,
         null=False
         )
+    email = models.EmailField(
+        max_length=254
+        )
     endereco = models.CharField(
         max_length=255,
         verbose_name=u'Endereço',
@@ -117,18 +121,15 @@ class Republica(models.Model):
     slug = models.SlugField(
         'Atalho'
         )
-    bairro = models.CharField(
-        'Bairro',
-        max_length=200,
-        blank=True,
-        )
     genero = models.CharField(
         'Gênero',
         max_length=1,
         choices=GENEROS_REPUBLICA
         )
-    qtd_vagas = models.IntegerField(
-        'Quantidade de vagas'
+    qtd_vagas = models.PositiveIntegerField(
+        'Quantidade de vagas',
+        default=1,
+        validators=[MinValueValidator(1)]
         )
     tipo_imovel = models.CharField(
         'tipo de imóvel',
@@ -153,11 +154,23 @@ class Republica(models.Model):
         )
     latitude = models.DecimalField(
         max_digits=30,
-        decimal_places=28
+        decimal_places=20,
+        default=33
         )
     longitude = models.DecimalField(
         max_digits=30,
-        decimal_places=28
+        decimal_places=20,
+        default=33
+        )
+    valor = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=0
+    )
+    comentarios = models.CharField(
+        max_length=1000,
+        null=True, 
+        blank=True,
         )
     def __str__(self):
     

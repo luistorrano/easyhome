@@ -1,56 +1,81 @@
 from django.shortcuts import render
-from .forms import LatLngForm
-from .models import Republica
-from .utils import find_nearest_storen
+from .forms import LatLngForm, republicaForm, CustomUserCreationForm, CustomUserChangeForm
+from .models import Republica, Usuario
+from .utils import encontrar_republica
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
 import json
 from decimal import Decimal
 
 def index(request):
     form = LatLngForm()
-
     return render(request,'index.html', {'form':form})
 
 @csrf_exempt
 def estudante(request):
-    filename = 'pontos.json'
-    json = """
-        {
-        "Latitude": {0},
-        "Longitude": {1}
-    },
-    """
-
-    PRECISION_MAP = {
-    0: Decimal('1.0'),      # -/+ 111  km
-    1: Decimal('0.1'),      # -/+ 11.1 km
-    2: Decimal('0.01'),     # -/+ 1.11 km
-    3: Decimal('0.001'),    # -/+ 111  m
-    4: Decimal('0.0001'),   # -/+ 11.1 m
-    5: Decimal('0.00001'),  # -/+ 1.11 m
-    6: Decimal('0.000001')  # -/+ 11.1 cm
-    }
+    filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
 
     if request.POST:
-        republicas = []
-
-        precison = 1
-    
-        results = {}  # dict is already sorted from lower to greater ;)
-        # now I would love a graph database ;)
-        _range = PRECISION_MAP[precison]
-        stores = Republica.objects.filter(
-            # Here we search around a range. 9 is a modifier in _range to
-            # be a bit more wide, specially in depth precisions. More stations
-            # per loop means less queries.
-            latitude__gt=Decimal(float(request.POST.get('latitude'))) - (_range * 9), latitude__lt=Decimal(float(request.POST.get('latitude'))) + (_range * 9),
-            longitude__gt=Decimal(float(request.POST.get('longitude'))) - (_range * 9), longitude__lt=Decimal(float(request.POST.get('longitude'))) + (_range * 9)
-        )
-        print (stores)
-        #if republicas:
-         #   for republica in republicas:
-          #      with open(filename,'w') as f:
-           #         import pdb; pdb.set_trace()
-            #        conteudo = f.writelines(json.format(republica.latitude,republica.longitude))
-            
+        if request.POST.get('latitude'):    
+            republicas = encontrar_republica(Decimal(float(request.POST.get('latitude'))),Decimal(float(request.POST.get('longitude'))))
+            if republicas:
+                arq = open(filename,'w+')
+                latlng = []
+                for republica in republicas:
+                    latlng.append({
+                        "Latitude": str(republica.latitude),
+                        "Longitude": str(republica.longitude)
+                    })
+                latlng = str(latlng)
+                latlng = latlng.replace("'",'"')
+                arq.write(latlng)
+                arq.close()
     return render(request,'estudante.html', {'republicas':republicas})
+
+def cadastro_republica(request):
+    form = republicaForm()
+    if request.POST:
+        form = republicaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #retornar para pagina de minhas republicas
+    return render(request,'cadastro_republica.html',{'form':form })
+
+def cadastro_usuario(request):
+    form = CustomUserCreationForm()
+    if request.POST:
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request,'cadastro_usuario.html',{'form':form})
+
+def perfil(request):
+    perfil = Usuario.objects.filter(username=request.user.username)
+    return render(request,'perfil.html',{'perfil':perfil})
+
+def alterar_usuario(request):
+    if request.POST:
+        user = Usuario.objects.get(username=request.POST.get('username'))
+        user.email = request.POST.get('email')
+        user.nome = request.POST.get('nome')
+        user.endereco = request.POST.get('endereco')
+        user.genero = request.POST.get('genero')
+        user.estado = request.POST.get('estado')
+        user.cidade = request.POST.get('cidade')
+        user.telefone = request.POST.get('telefone')
+        user.rg = request.POST.get('rg')
+        user.cpf = request.POST.get('cpf')
+        user.save()
+    user = Usuario.objects.filter(username=request.user.username)
+    estado = CustomUserCreationForm()
+    form = user[0]
+    return render(request,'alterar_usuario.html',{'form':form,'estado':estado})
+
+def excluir_conta(request):
+    import pdb; pdb.set_trace()
+    user = Usuario.objects.get(username=request.user.username)
+    user.delete()
+    return redirect('index')
+    
+    

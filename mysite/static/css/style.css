@@ -1,8 +1,21 @@
 
+
+
   body { 
-    background: url("../images/Fundo.png") no-repeat center center fixed; 
+    background: url("../images/Fundo-min.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     }
+    .div-arredondada {
+        background:whitesmoke;
+         
+        -moz-border-radius:1px;
+        -webkit-border-radius:1px;
+         border-radius:1px;
+        }
+
+        #map_canvas {
+            width: 100%;
+         }
