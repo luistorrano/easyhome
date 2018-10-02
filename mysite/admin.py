@@ -6,8 +6,16 @@ from .models import Republica, Usuario
 
 class RepublicaAdmin(admin.ModelAdmin):
     list_display = ['nome','endereco','qtd_vagas','tipo_imovel','data_registro']
-    search_fields = ['nome','endereco','estado','qtd_vagas','tipo_imovel','data_registro']
+    search_fields = ['nome','endereco','qtd_vagas','tipo_imovel','data_registro']
     prepopulated_fields = {'slug':('endereco',)}
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            # Only set added_by during the first save.
+            obj.owner = request.user
+        super().save_model(request, obj, form, change)
+
+
+
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ['endereco','estado','cidade','telefone','rg','cpf','genero','tipo_acesso','email','data_registro']

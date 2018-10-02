@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h1 class="display-4"> Minhas Repúblicas</h1>  
+    </div>
+</div>
+<div class="row justify-content-center">
+<div class="col-md-8 justify-content-center">
+<div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
+        {% for republica in republicas %}
+        <div class="col-md-4 mb-2 mt-2 ml-2 mr-2">
+            <label>Nome da república:</label>
+            <a href="{% url 'perfil-republica' republica.id %}">
+                {{republica.nome}}
+            </a><br/>
+            <label>Gênero aceito:</label>
+            {{republica.genero}}<br/>
+            <label>Quantidade de vagas:</label>
+            {{republica.qtd_vagas}}<br/>
+            <label>Tipo do imóvel:</label>
+            {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+        </div>
+    {% endfor %}   
+</div>
+</div>
+
+    <!-- Maps API Javascript -->
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U&libraries=places"></script>
+    <script src="{% static 'js/mapa.js' %}"></script>
+    <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
+    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        $('#id_valor').mask('#.##0,00', {reverse: true});
+        
+        </script>
+   {% endblock %}

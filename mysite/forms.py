@@ -73,10 +73,6 @@ class republicaForm(forms.ModelForm):
         max_length=254,
         help_text= 'Ex: Rua Taquari, 44 - Mooca'
         )
-    estado = forms.ChoiceField(
-        choices=STATE_CHOICES,
-        required=True
-        )
     cidade = forms.CharField(
         max_length=254,
         help_text='Ex: São Paulo, São Caetano do Sul ...'

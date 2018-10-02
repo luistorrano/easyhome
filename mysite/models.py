@@ -4,7 +4,9 @@ from geoposition.fields import GeopositionField
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from decimal import Decimal
-
+from django.conf import settings
+from jsonfield import JSONField
+import json
 class Usuario(AbstractUser):
     
     GENEROS = (
@@ -28,13 +30,9 @@ class Usuario(AbstractUser):
         preencha sem abreviações. \
         Ex: Rua taquari,  100'
         )
-    mensagem = models.CharField(
-        max_length=10000,
-        verbose_name='Mensagem',
-        help_text='Digite uma mensagem',
-        null=True,
-        blank=True
-        )
+    mensagem = JSONField(
+        null=True, blank=True
+    )
     cidade = models.CharField(
         max_length=255,
         default='sp',
@@ -91,6 +89,8 @@ class Usuario(AbstractUser):
         max_length=254,
         unique=True
         )
+    
+
     def __str__(self):
     
         return self.email
@@ -146,12 +146,6 @@ class Republica(models.Model):
         auto_now_add=True
         )
 
-    estado = models.CharField(
-        max_length=2,
-        null=True, 
-        blank=True,
-        choices=STATE_CHOICES
-        )
     latitude = models.DecimalField(
         max_digits=30,
         decimal_places=20,
@@ -171,7 +165,17 @@ class Republica(models.Model):
         max_length=1000,
         null=True, 
         blank=True,
-        )
+    )   
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        default=1,
+        on_delete=models.CASCADE    
+    )
+    mensagem = JSONField(
+        null=True, blank=True
+    )
     def __str__(self):
     
         return self.nome

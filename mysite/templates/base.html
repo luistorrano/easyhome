@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load mysite_extras %}
+
 {% block html %}
 <!DOCTYPE html>
     <html lang="pt-br">
@@ -32,23 +34,37 @@
                         <div class="collapse navbar-collapse" id="navbarSite">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"> Inicio </a>
+                                    <a class="nav-link" href="{%url 'index' %}"> Inicio </a>
+                                </li>
+                                <li class="nav-item">                
+                                    <form method="POST" id="formlatlng" action="{% url 'estudante' %}">{% csrf_token %}
+                                    <input name="latitude" type="hidden" id="latitude">
+                                    <input name="longitude" type="hidden" id="longitude">
+                                        <a id="estudante_link"type="submit" class="nav-link" href="#"> Estudante </a>
+                                </li>
+                            </form>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="{%url 'minhas-republicas' %}"> Locador </a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link" href="{%url 'estudante' %}"> Estudante </a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="#"> Locador </a>
-                                </li>
-                                <li class="nav-item dropdown">
                                         <a class="nav-link" href="#"> Sobre </a>
                                 </li>
                                 <li class="nav-item">
                                         <a class="nav-link" href="#"> Contato </a>
                                 </li>
+                                {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'login' %}"> Login </a>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                 </nav>
+
                 {% block content %}
                 {% endblock %}
             </div>
@@ -56,9 +72,66 @@
                 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
                 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-
+                <script type="text/javascript" >
+                    function getLocation()
+                    {
+                    if (navigator.geolocation)
+                      {
+                       navigator.geolocation.getCurrentPosition(showPosition);
+                       
+                      }
+                    else{
+                      x.innerHTML="O seu navegador não suporta Geolocalização.";}
+                    }
+                  function showPosition(position)
+                    {
+                    $('#latitude').val(position.coords.latitude);
+                    $('#longitude').val(position.coords.longitude);
+                    }
+                  window.onload = getLocation;
+                  
+                  document.getElementById("estudante_link").onclick = function() {
+                    document.getElementById("formlatlng").submit();
+                }
+                
+                </script>
             </div>
+            
+
         </body>
+        {% if user.is_authenticated %}
+            {% if user.tipo_acesso == 'E' %}    
+                
+                <div class="modal fade" id="modal-mensagem">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        
+                                        <h4 class="modal-title">Mensagens</h4>
+                                        <span><button  type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {% if user.mensagem %}
+                                            {% if user.mensagem|tamanho > 1 %}
+                                                <div class="mensagem">
+                                                    <p>{{user.mensagem|last}}</p>
+                                                </div>
+                                            {% else %}
+                                                <div class="mensagem">
+                                                    <p>{{user.mensagem}}</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input class="form-control"><button class="btn btn-primary" type="submit">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="menu_flutuante" data-toggle="modal" data-target="#modal-mensagem">Exibir mensagem</button>
+    {% endif %}
+    {% endif %}
     {% endblock %}
 </html>
 {% endblock %}

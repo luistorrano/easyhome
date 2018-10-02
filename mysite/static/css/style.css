@@ -7,15 +7,45 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    height:100%;
     }
     .div-arredondada {
         background:whitesmoke;
          
-        -moz-border-radius:1px;
-        -webkit-border-radius:1px;
-         border-radius:1px;
+        -moz-border-radius:2%;
+        -webkit-border-radius:2%;
+         border-radius:2%;
         }
+        .mensagem {
+             
+            -moz-border-radius:3%;
+            -webkit-border-radius:3%;
+             border-radius:3%;
+            }
 
-        #map_canvas {
-            width: 100%;
-         }
+        .map-responsive{
+          overflow:hidden;
+          padding-bottom:56.25%;
+          position:relative;
+          height:0;
+          border-radius:3%;
+      }
+      .map-responsive iframe{
+          left:0;
+          top:0;
+          height:100%;
+          width:100%;
+          position:absolute;
+      }
+      
+      #menu_flutuante{
+        position:fixed;
+        _position:absolute;
+        bottom:0;
+        _top:expression(eval(document.body.scrollTop));
+        left:0px;
+        width:30%;
+        font-size:20px;
+        border-bottom:1px solid #FFFFFF;
+        }
+        
