@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group col-sm-6">
                     <label for="id_valor">Valor:</label>
-                        <input type="number" name="valor" class="has-popover form-control" placeholder="0.00" step="any" min="1" data-placement="right" data-container="body" required id="id_valor">
+                        <input type="number" name="valor" class="has-popover form-control" placeholder="0.00" data-container="body" required id="id_valor">
                     </div>
                 </div>
                 <div class="form-row mt-4">
@@ -76,9 +76,5 @@
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
-    <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
-    <script type="text/javascript">
-        $('#id_valor').mask('#.##0,00', {reverse: true});
-        
-        </script>
+
    {% endblock %}

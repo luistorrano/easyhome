@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import LatLngForm, republicaForm, CustomUserCreationForm, CustomUserChangeForm
+from .forms import *
 from .models import Republica, Usuario
 from .utils import encontrar_republica
 from django.views.decorators.csrf import csrf_exempt
@@ -16,26 +16,26 @@ def index(request):
 
 @csrf_exempt
 def estudante(request):
-    filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
     import pdb; pdb.set_trace()
+
+    filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
     if request.POST:
-        if request.POST.get('latitude'):    
+        if request.POST.get('latitude') != "":    
             republicas = encontrar_republica(request.POST.get('latitude'),request.POST.get('longitude'))
-            if republicas:
-                arq = open(filename,'w+')
-                latlng = []
-                for republica in republicas:
-                    latlng.append({
-                        "Latitude": str(republica.latitude),
-                        "Longitude": str(republica.longitude)
-                    })
-                latlng = str(latlng)
-                latlng = latlng.replace("'",'"')
-                arq.write(latlng)
-                arq.close()
-    else:
-        return redirect('index')
-    if republicas:
+            arq = open(filename,'w+')
+            latlng = []
+            for republica in republicas:
+                latlng.append({
+                    "Latitude": str(republica.latitude),
+                    "Longitude": str(republica.longitude)
+                })
+            latlng = str(latlng)
+            latlng = latlng.replace("'",'"')
+            arq.write(latlng)
+            arq.close()
+        else:
+            return redirect('index')
+ 
         return render(request,'estudante.html', {'republicas':republicas})
     else:
         return redirect('index')
@@ -130,7 +130,11 @@ def perfil_republica(request,republica_id):
 
 @login_required(login_url='/login/')
 def excluir_republica(request,republica_id):
-    import pdb; pdb.set_trace()
+    rep = Republica.objects.filter(id=republica_id)
+    rep = rep[0]
+    if rep:
+        if request.user == rep.user:
+            rep.delete()
     return redirect('minhas-republicas')
 
 @login_required(login_url='/login/')
@@ -138,3 +142,13 @@ def alterar_republica(request,republica_id):
     import pdb; pdb.set_trace()
     return redirect('minhas-republicas')
     
+@login_required(login_url='/login/')
+def mensagens_republica(request,republica_id):
+    republica = Republica.objects.filter(id=republica_id)
+    form = msgForm()
+    if request.POST:
+        import pdb; pdb.set_trace()
+        json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username]}
+        form = msgForm(json_data)
+        
+    return render(request,'mensagens_republica.html',{"form":form })

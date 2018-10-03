@@ -95,10 +95,9 @@ class republicaForm(forms.ModelForm):
         )
     class Meta:
         model = Republica
-        fields = ('nome','endereco','qtd_vagas','tipo_imovel','latitude','longitude')
+        fields = ('nome','endereco','qtd_vagas','tipo_imovel','latitude','longitude','genero')
     def __init__(self, *args, **kwargs):
         super(republicaForm, self).__init__(*args, **kwargs)
-        self.fields['estado'].widget.attrs['class'] = 'form-control'
         self.fields['genero'].widget.attrs['class'] = 'form-control'
         self.fields['valor'].widget.attrs['class'] = 'form-control'
 
@@ -108,3 +107,8 @@ class republicaForm(forms.ModelForm):
             self.fields[field].help_text = None
             if help_text != '':
                 self.fields[field].widget.attrs.update({'class':'has-popover form-control', 'placeholder':help_text, 'data-placement':'right', 'data-container':'body'})
+
+class msgForm(forms.ModelForm):
+    class Meta:
+        model = Republica
+        fields = ('mensagem',)

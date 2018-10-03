@@ -10,20 +10,24 @@
                 <div class='col-md-2'></div>
         </div>
         <div class="row">
-            {% for republica in republicas %}
-                <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
-                    <a href="{% url 'perfil-republica' republica.id %}">
-                        <label>Nome da república:</label>
-                        {{republica.nome}}
-                    </a><br/>
-                    <label>Gênero aceito:</label>
-                    {{republica.genero}}<br/>
-                    <label>Quantidade de vagas:</label>
-                    {{republica.qtd_vagas}}<br/>
-                    <label>Tipo do imóvel:</label>
-                    {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
-                </div>
-            {% endfor %}    
+            {% if republicas %}
+                {% for republica in republicas %}
+                    <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
+                        <a href="{% url 'perfil-republica' republica.id %}">
+                            <label>Nome da república:</label>
+                            {{republica.nome}}
+                        </a><br/>
+                        <label>Gênero aceito:</label>
+                        {{republica.genero}}<br/>
+                        <label>Quantidade de vagas:</label>
+                        {{republica.qtd_vagas}}<br/>
+                        <label>Tipo do imóvel:</label>
+                        {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+                    </div>
+                {% endfor %}    
+            {% else %}
+                    <p>Não há repúblicas próximas do seu local.</p>
+            {% endif %}
         </div>
 
     <!-- Maps API Javascript -->

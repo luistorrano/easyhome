@@ -7,7 +7,7 @@
     </div>
  </div>
 
-<form id="formlatlng" method="POST" action="{% url 'estudante' %}">
+<form id="formlocal" method="POST" action="{% url 'estudante' %}">
  <div class="row">
     <div class="col-md-6 col-sm-12">
        <a type="button" href="{% url 'minhas-republicas' %}" class="btn btn-light" style="float: right;">Proprietário</a>
@@ -15,33 +15,24 @@
     <div class="col-md-6 col-sm-12">
         <button type="submit" id="estudante" class="btn btn-light" style="float: left;">Estudante</button>
      </div>
-     <input type="hidden" name="latitude" id="latitude" style="display:hidden;">
-     <input type="hidden"  name="longitude" id="longitude" style="display:hidden;">
+     <input type="hidden" name="latitude" id="lati" value="">
+     <input type="hidden"  name="longitude" id="longi" value="">
  </div>
 </form>
 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
 
 
-/*function getLocation()
+function getLocation()
   {
-  if (navigator.geolocation)
-    {
-     navigator.geolocation.getCurrentPosition(showPosition);
-     
+    console.log('lala');
+      var lat = $("#latitude").val();
+      var lng = $("#longitude").val();
+      $('#lati').val(lat);
+      $('#longi').val(lng);
     }
-  else{
-    x.innerHTML="O seu navegador não suporta Geolocalização.";}
-  }
-function showPosition(position)
-  {
-  $('#latitude').val(position.coords.latitude);
-  $('#longitude').val(position.coords.longitude);
-  }
-window.onload = getLocation;
-*/
-
-var form = $('#formlatlng');
+window.onload = getLocation();
+var form = $('#formlocal');
 form.submit(function(){
   if (form[0][1].value == ""){
     alert("Por favor retorne e ative a localização.");
@@ -58,14 +49,6 @@ $.ajax({
   });
 });
 
-navigator.permissions.query({name:'geolocation'}).then(function(result) {
-  if (result.state == 'granted') {
-    console.log('lala')
-  } else if (result.state == 'prompt') {
-    console.log('lala2')
-  }
-  // Don't do anything if the permission was denied.
- });
 
   </script>
 {% endblock %}

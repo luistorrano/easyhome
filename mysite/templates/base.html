@@ -40,12 +40,14 @@
                                     <form method="POST" id="formlatlng" action="{% url 'estudante' %}">{% csrf_token %}
                                     <input name="latitude" type="hidden" id="latitude">
                                     <input name="longitude" type="hidden" id="longitude">
-                                        <a id="estudante_link"type="submit" class="nav-link" href="#"> Estudante </a>
+                                        <a id="estudante_link" type="submit" class="nav-link" href="#"> Estudante </a>
                                 </li>
                             </form>
+                            {% if user.tipo_acesso == "P" %}
                                 <li class="nav-item">
                                         <a class="nav-link" href="{%url 'minhas-republicas' %}"> Locador </a>
                                 </li>
+                            {% endif %}
                                 <li class="nav-item">
                                         <a class="nav-link" href="#"> Sobre </a>
                                 </li>

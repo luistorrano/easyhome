@@ -9,22 +9,35 @@
 </div>
 <div class="row justify-content-center">
 <div class="col-md-8 justify-content-center">
-<div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
-        {% for republica in republicas %}
-        <div class="col-md-4 mb-2 mt-2 ml-2 mr-2">
-            <label>Nome da república:</label>
-            <a href="{% url 'perfil-republica' republica.id %}">
-                {{republica.nome}}
-            </a><br/>
-            <label>Gênero aceito:</label>
-            {{republica.genero}}<br/>
-            <label>Quantidade de vagas:</label>
-            {{republica.qtd_vagas}}<br/>
-            <label>Tipo do imóvel:</label>
-            {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+        <div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
+            <h1 class="text-center"><a href="{% url 'cadastrar-republica' %}">+<br/>Cadastrar República</a></h1>
         </div>
-    {% endfor %}   
-</div>
+                    
+    {% if republicas %}
+        <div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
+
+            {% for republica in republicas %}
+                <div class="col-md-4 mb-2 mt-2 ml-2 mr-2">
+                    <label>Nome da república:</label>
+                    <a href="{% url 'perfil-republica' republica.id %}">
+                        {{republica.nome}}
+                    </a><br/>
+                    <label>Gênero aceito:</label>
+                    {% if republica.genero == "F" %} Feminino <br/>{% endif %}
+                    {% if republica.genero == "M" %} Masculino <br/>{% endif %}
+                    {% if republica.genero == "A" %} Ambos <br/>{% endif %}
+                    <label>Quantidade de vagas:</label>
+                    {{republica.qtd_vagas}}<br/>
+                    <label>Tipo do imóvel:</label>
+                    {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}<br/>
+                    <label>Valor:</label><br/>
+                    {{republica.valor}}<br/>
+                    <a type="button" class="btn btn-primary" href="{% url 'mensagens-republica' republica.id %}" style="float:right;">Mensagens</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}   
+
 </div>
 
     <!-- Maps API Javascript -->
@@ -36,7 +49,6 @@
     <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
     <script type="text/javascript">
-        $('#id_valor').mask('#.##0,00', {reverse: true});
-        
+        $()        
         </script>
    {% endblock %}

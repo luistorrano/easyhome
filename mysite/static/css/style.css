@@ -49,3 +49,6 @@
         border-bottom:1px solid #FFFFFF;
         }
         
+        a[type="submit"] {
+            -webkit-appearance: none;
+        }
