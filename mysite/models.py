@@ -176,6 +176,10 @@ class Republica(models.Model):
     mensagem = JSONField(
         null=True, blank=True
     )
+    rep_id = models.IntegerField(
+        null=True,
+        blank=True
+    )
     def __str__(self):
     
         return self.nome

@@ -32,4 +32,5 @@ urlpatterns = [
     re_path('excluir-republica/(?P<republica_id>\d+)/$', excluir_republica, name='excluir-republica'),
     re_path('alterar-republica/(?P<republica_id>\d+)/$', alterar_republica, name='alterar-republica'),
     re_path('mensagens-republica/(?P<republica_id>\d+)/$', mensagens_republica, name='mensagens-republica'),
+    re_path('tirar-duvidas/(?P<republica_id>\d+)/$', tirar_duvidas, name='tirar-duvidas'),
 ]

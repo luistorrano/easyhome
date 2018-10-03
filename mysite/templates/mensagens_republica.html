@@ -9,16 +9,22 @@
 </div>
 <div class="row justify-content-center">
 <div class="col-md-8 justify-content-center">
-<div style="border-radius: 1%;" class="row justify-content-center">
-    <div class="col-sm-12 col-md-10 col-lg-8">
-            <form id="form_mensagens" method="POST">{% csrf_token %}
-                    {% for mensagem in mensagens %}
+    {% comment "" %}
+        
+    {% for mensagem in mensagens %}{% endcomment %}
+    
+    <div  style="border-radius: 1%;" class="row justify-content-center">
+            <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario}}</button></span>     
+    <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
+        
+            <form id="form_{{republica.nome}}" method="POST">{% csrf_token %}
+                    
                 <div class="div-arredondada">
                     
                         <p>{{mensagem}}</p>
 
                 </div>
-                {% endfor %}
+                
                 <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
                 <div class="form-row mt-4">
                     <div class="col-sm-12">
@@ -27,8 +33,14 @@
                 </div>
 
             </form>
+            {% comment "" %}
+            {% endfor %}
+            {% endcomment %}
         </div>
     </div>
+    {% comment "" %}
+    {% endfor %}
+    {% endcomment %}
 </div>
 </div>
     
@@ -38,6 +50,12 @@
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
     <script type="text/javascript">
-
+        aparecer();
+        function aparecer(){
+          $('#recolher').hide();
+          $('#botao').click(function(){
+             $('#recolher').slideToggle();
+           });
+        }
     </script>
    {% endblock %}

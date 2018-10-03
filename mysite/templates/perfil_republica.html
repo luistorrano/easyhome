@@ -88,41 +88,17 @@
                         <a id="id_excluir_republica" onclick="return confirm_click();" type="button" href="{% url 'excluir-republica' p.id %}" class="form-control btn btn-danger">Excluir República</a>
                     </div>
                 </form>
+                {% else %}
+                <div class="col-sm-3">
+                    <a id="tirar_duvidas" type="button" href="{% url 'tirar-duvidas' p.id %}" class="btn btn-primary">Tirar Dúvidas</a>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-{% if user.is_authenticated %}
-    {% if user.tipo_acesso == 'P' %}    
 
-        <div class="modal fade" id="modal-mensagem">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                
-                                <h4 class="modal-title">Mensagens</h4>
-                                <button  type="button" class="close" data-dismiss="modal"><span>×</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mensagem ml-2 mt-2 mb-2 mr-2">
-                                    {% for msg in p.mensagem %}
-                                    <p class="ml-2 mt-3 mb-2 mr-2">
-                                        {{p}}
-                                    </p>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                            <form method="POST"> {% csrf_token %}<input class="form-control"><button class="btn btn-primary" type="submit">Enviar</button></form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" id="menu_flutuante" data-toggle="modal" data-target="#modal-mensagem">Exibir mensagem</button>
-    {% endif %}
-{% endif %}
 {%endfor%}
 <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>

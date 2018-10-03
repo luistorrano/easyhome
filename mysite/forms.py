@@ -111,4 +111,9 @@ class republicaForm(forms.ModelForm):
 class msgForm(forms.ModelForm):
     class Meta:
         model = Republica
+        fields = ('mensagem','rep_id')
+
+class msgFormUsuario(forms.ModelForm):
+    class Meta:
+        model = Usuario
         fields = ('mensagem',)

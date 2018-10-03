@@ -126,7 +126,12 @@ def logoutUsuario(request):
 def perfil_republica(request,republica_id):
     import pdb; pdb.set_trace()
     perfil = Republica.objects.filter(id=republica_id)
-    return render(request,'perfil_republica.html',{'perfil':perfil, 'acesso':request.user.tipo_acesso})
+    if request.user.tipo_acesso == "E":
+        
+        form = msgFormUsuario()
+        return render(request,'perfil_republica.html',{'perfil':perfil, 'acesso':request.user.tipo_acesso, 'form':form})
+    else:
+        return render(request,'perfil_republica.html',{'perfil':perfil, 'acesso':request.user.tipo_acesso})
 
 @login_required(login_url='/login/')
 def excluir_republica(request,republica_id):
@@ -145,10 +150,34 @@ def alterar_republica(request,republica_id):
 @login_required(login_url='/login/')
 def mensagens_republica(request,republica_id):
     republica = Republica.objects.filter(id=republica_id)
-    form = msgForm()
+    form = msgFormUsuario()
     if request.POST:
         import pdb; pdb.set_trace()
-        json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username]}
-        form = msgForm(json_data)
+        json_data = {"mensagens":{ "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username]}}
+        
         
     return render(request,'mensagens_republica.html',{"form":form })
+
+def tirar_duvidas(request, republica_id):
+    usuario = Usuario.objects.filter(id=request.user.id)
+    form = msgForm()
+    republica = Republica.objects.filter(id=republica_id)
+    republica = republica[0]
+    mensagem = republica.mensagem
+    import pdb; pdb.set_trace()    
+    if request.method == "POST" and request.user.tipo_acesso == "E":
+        json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username]}
+        mensagens_exibidas = []
+        for msg in mensagem['mensagens']:
+            if msg['usuario'][0] == request.user.username:
+                mensagens_exibidas.append(msg['mensagem'])
+        msg_enviada = [request.POST.get('mensagem')]
+        mensagens_exibidas.append(msg_enviada)
+        mensagem['mensagens'].append(json_data)
+        republica.mensagem = mensagem
+        republica.save()
+        mensagem = mensagens_exibidas
+    
+    
+    return render(request,'tirar_duvidas.html',{'form': form, 'republica_id':republica_id , 'mensagens_existentes':mensagem})
+        

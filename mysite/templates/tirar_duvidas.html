@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h1 class="display-4"> Tirar Dúvidas</h1>  
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-8 justify-content-center">
+        {% for mensagem in mensagens_existentes.mensagens %}
+            
+        {% if mensagem.usuario.0 == user.username %}
+
+                <div  style="border-radius: 1%;" class="row justify-content-center">
+                    <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario.0}}</button></span>     
+                    <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
+                        <form id="form" method="POST" action="{% url 'tirar-duvidas' republica_id %}">{% csrf_token %}                        
+                            <div class="div-arredondada">
+                                <p>{{mensagem.mensagem.0}}</p>
+                            </div>
+                            <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
+                            <input type="hidden" name="rep_id" value={{republica_id}}>
+                            <div class="form-row mt-4">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+    
+    
+    <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
+    <script type="text/javascript">
+        aparecer();
+        function aparecer(){
+          $('#recolher').hide();
+          $('#botao').click(function(){
+             $('#recolher').slideToggle();
+           });
+        }
+    </script>
+   {% endblock %}
