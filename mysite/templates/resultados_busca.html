@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+        <div class="row">
+            {% if republicas %}
+                {% for republica in republicas %}
+                    <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
+                            
+                                    <label>Nome da república:</label>
+                                    <a href="{% url 'perfil-republica' republica.id %}">
+                                         {{republica.nome}}
+                                </a><br/>
+                        <label>Gênero aceito:</label>
+                        {{republica.genero}}<br/>
+                        <label>Quantidade de vagas:</label>
+                        {{republica.qtd_vagas}}<br/>
+                        <label>Tipo do imóvel:</label>
+                        {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+                    </div>
+                {% endfor %}    
+            {% else %}
+                    <p>Não há repúblicas próximas do seu local.</p>
+            {% endif %}
+        </div>
+
+    <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
+
+   {% endblock %}

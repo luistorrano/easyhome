@@ -14,7 +14,6 @@ PRECISION_MAP = {
 
 def encontrar_republica(lat, lng):
     precison = 1
-    import pdb; pdb.set_trace()
     _range = PRECISION_MAP[precison]
     lat = Decimal(lat)
     lng = Decimal(lng)
@@ -25,6 +24,37 @@ def encontrar_republica(lat, lng):
     )
     
     return republicas
+def busca_filtros(latitude, longitude, qtd_vagas, tipo_imovel, genero, valor):
+    valor = valor.replace(',','.')
+    valor = Decimal(valor)
+    republicas = []
+    precison = 1
+    _range = PRECISION_MAP[precison]
+    lat = Decimal(latitude)
+    lng = Decimal(longitude)
+    
+    rep = Republica.objects.filter(
+        latitude__gte=lat - (_range ), latitude__lte=lat + (_range ),
+        longitude__gte=lng - (_range ), longitude__lte=lng + (_range)
+    )
+    if rep:
+        rep_tipo_imovel = rep.filter(tipo_imovel=tipo_imovel)
+        if rep_tipo_imovel:
+            rep_vagas = rep_tipo_imovel.filter(qtd_vagas__gte=qtd_vagas)
+            rep = rep_vagas
+            if rep_vagas:
+                rep_valor = rep_vagas.filter(valor__lte=valor)
+                rep = rep_valor
+                if rep_valor:
+                    rep_genero = rep_valor.filter(genero=genero)
+                    rep = rep_genero
+                else:
+                    rep = rep_vagas
+            else:
+                rep = rep_vagas
+        else:
+            rep = rep
 
+    return rep
 #def enviar_mensagem(mensagem):
 

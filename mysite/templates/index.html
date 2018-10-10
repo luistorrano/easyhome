@@ -1,16 +1,11 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<div class="row">
-    <div class="col-xs-12">
-       Linha com 12 colunas em qualquer dispositivo
-    </div>
- </div>
 
 <form id="formlocal" method="POST" action="{% url 'estudante' %}">
  <div class="row">
     <div class="col-md-6 col-sm-12">
-       <a type="button" href="{% url 'minhas-republicas' %}" class="btn btn-light" style="float: right;">Proprietário</a>
+       <a type="button" id="btnProprietario" href="{% url 'minhas-republicas' %}" class="btn btn-light" style="float: right;">Proprietário</a>
     </div>
     <div class="col-md-6 col-sm-12">
         <button type="submit" id="estudante" class="btn btn-light" style="float: left;">Estudante</button>
@@ -23,14 +18,23 @@
 <script type="text/javascript">
 
 
-function getLocation()
+  function getLocation()
   {
-    console.log('lala');
-      var lat = $("#latitude").val();
-      var lng = $("#longitude").val();
-      $('#lati').val(lat);
-      $('#longi').val(lng);
+  if (navigator.geolocation)
+    {
+     navigator.geolocation.getCurrentPosition(showPosition);
+     
     }
+  else{
+    x.innerHTML="O seu navegador não suporta Geolocalização.";}
+  }
+function showPosition(position)
+  {
+  $('#lati').val(position.coords.latitude);
+  $('#longi').val(position.coords.longitude);
+  }
+window.onload = getLocation;
+
 window.onload = getLocation();
 var form = $('#formlocal');
 form.submit(function(){
@@ -49,7 +53,16 @@ $.ajax({
   });
 });
 
+$("#btnProprietario").on('click',function(){
 
+{% if user.tipo_acesso == "E" %}
+  alert("Esta àrea é destinada somente a proprietários de imóveis.")
+  window.location.reload();
+{% endif %}
+{% if user.is_authenticated == False %}
+  alert("Por favor, efetue o login ou cadastre-se para acessar esta area do site.")
+{% endif %}
+});
   </script>
 {% endblock %}
 

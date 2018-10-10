@@ -117,3 +117,27 @@ class msgFormUsuario(forms.ModelForm):
     class Meta:
         model = Usuario
         fields = ('mensagem',)
+
+class formFiltros(forms.ModelForm):
+    class Meta:
+        model = Republica
+        fields = ('endereco', 'qtd_vagas', 'tipo_imovel','latitude','longitude','genero','valor')
+    def __init__(self, *args, **kwargs):
+        super(formFiltros, self).__init__(*args, **kwargs)
+        self.fields['genero'].widget.attrs['class'] = 'form-control'
+        self.fields['valor'].widget.attrs['class'] = 'form-control'
+        self.fields['valor'].widget.attrs['type'] = 'range'
+        self.fields['valor'].widget.attrs['min'] = '1'
+        self.fields['valor'].widget.attrs['max'] = '5000'
+
+class formLogin(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ('username','password')
+    def __init__(self, *args, **kwargs):
+        super(formLogin, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            help_text = self.fields[field].help_text
+            self.fields[field].help_text = None
+            if help_text != '':
+                self.fields[field].widget.attrs.update({'class':'has-popover', 'data-content':help_text, 'data-placement':'right', 'data-container':'body'})

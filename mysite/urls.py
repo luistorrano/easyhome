@@ -16,6 +16,6 @@ urlpatterns = [
     re_path('excluir-republica/(?P<republica_id>[0-9])/$', views.excluir_republica),
     re_path('alterar-republica/(?P<republica_id>[0-9])/$', views.alterar_republica),
     re_path('mensagens-republica/(?P<republica_id>[0-9])/$', views.mensagens_republica),
-    re_path('tirar-duvidas/(?P<republica_id>[0-9])/$', views.tirar_duvidas)
-
+    re_path('tirar-duvidas/(?P<republica_id>[0-9])/$', views.tirar_duvidas),
+    path('busca/', views.busca)
 ]

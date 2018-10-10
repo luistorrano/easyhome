@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-
         <div class="row">  
                 <div class='col-md-2'></div>
                 <div class="col-md-8">
@@ -13,12 +12,15 @@
             {% if republicas %}
                 {% for republica in republicas %}
                     <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
-                        <a href="{% url 'perfil-republica' republica.id %}">
-                            <label>Nome da república:</label>
+                        
+                        <label name="nome_rep" id="{{republica.id}}">Nome da república:</label>
+                        <a href="{% url 'perfil-republica' republica.id %}">    
                             {{republica.nome}}
                         </a><br/>
                         <label>Gênero aceito:</label>
-                        {{republica.genero}}<br/>
+                        {% if republica.genero == 'M'%} Masculino {% endif %}
+                        {% if republica.genero == 'F'%} Feminino {% endif %}
+                        {% if republica.genero == 'A'%} Ambos {% endif %}<br/>
                         <label>Quantidade de vagas:</label>
                         {{republica.qtd_vagas}}<br/>
                         <label>Tipo do imóvel:</label>
@@ -26,12 +28,12 @@
                     </div>
                 {% endfor %}    
             {% else %}
-                    <p>Não há repúblicas próximas do seu local.</p>
+                    <p>Não há repúblicas dentro destas especificações.</p>
             {% endif %}
         </div>
 
     <!-- Maps API Javascript -->
-    <script src="https://maps.google.com/maps/api/js?key=AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyBC_Z25VVbfm3QUNij2-UEJxq16OEkYetM"></script>
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
@@ -60,23 +62,43 @@
         google.maps.event.addDomListener(window,'load',initialize)
 
         function carregarPontos() {
- 
                 $.getJSON("{% static 'json/pontos.json' %}", function(pontos) {
                 console.log(pontos)
+                new google.maps.Marker({
+                    position: new google.maps.LatLng({{latitude}}, {{longitude}}),
+                    title: 'Você está aqui!',
+                    map: map,
+                    icon:"{% static 'markers/marker_usuario.png' %}"
+                });
                     $.each(pontos, function(index, ponto) {
-             
+                        if(ponto.genero_aceito == "M"){
+                            ponto.genero_aceito = "Masculino"
+                        }
+                        if(ponto.genero_aceito == "F"){
+                            ponto.genero_aceito = "Feminino"
+                        }
+                        if(ponto.genero_aceito == "A"){
+                            ponto.genero_aceito = "Ambos"
+                            
+                        }
+                        var contentString ='Nome da república: '+ponto.Nome+'\n'+
+                            'Quantidade de vagas: '+ ponto.vagas +'\n'+
+                            'Tipo de imóvel: '+ ponto.tipo_imovel +'\n'+
+                            'Gênero aceito: '+ ponto.genero_aceito + '\n' + 
+                            'Distância: '+ ponto.distancia + 'Km';
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(ponto.Latitude, ponto.Longitude),
-                            title: '',
-                            map: map
+                            title: contentString,
+                            map: map,
+                            icon:"{% static 'markers/marker.png' %}"
                         });
-             
                     });
              
                 });
              
             }
             google.maps.event.addDomListener(window,'load',carregarPontos)
+
 
         </script>
    {% endblock %}

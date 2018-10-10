@@ -61,7 +61,7 @@
                 </div>
     
                 <div class="form-group col-sm-6 text-center">
-                    <label for="id_genero_0">Gênero:</label>
+                    <label for="id_genero_0">Gênero Aceito:</label>
                     <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" >
                 </div>
                 <div class="form-group col-sm-6">
@@ -106,11 +106,21 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var tipo_imovel = $("#id_tipo_imovel").val()
+            var genero = $('#id_genero').val()
             if(tipo_imovel == 'AP'){
                 $('#id_tipo_imovel').val("Apartamento")
             }
             else{
                 $('#id_tipo_imovel').val("Casa")
+            }
+            if(genero =='A'){
+                $('#id_genero').val("Ambos")
+            }
+            if(genero =='M'){
+                $('#id_genero').val("Masculino")
+            }
+            if(genero =='F'){
+                $('#id_genero').val("Feminino")
             }
         });
         function confirm_click(){

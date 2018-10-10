@@ -5,7 +5,7 @@
 {%for p in perfil%}
 <div class="row">
     <div class="col-12 text-center">
-        <h1 class="display-4">{{p.nome}}</h1>  
+        <h1 class="display-4"></h1>  
     </div>
 </div>
 <div class="row justify-content-center mb-5">
@@ -50,7 +50,7 @@
                                 <input type="text" name="cpf" class="has-popover form-control"  placeholder="ex: 47747277743" data-placement="right" data-container="body" required id="id_cpf" value="{{p.cpf}}" readonly>
                     </div>
                     <div class="form-group col-sm-6">
-                            <label for="id_tipo_acesso">Eu sou: {{p.tipo_acesso}}</label>
+                            <label for="id_tipo_acesso">Eu sou:</label>
                             <input type="text" name="tipo_acesso" class="has-popover form-control" data-placement="right" data-container="body" required id="id_tipo_acesso" value="{{p.tipo_acesso}}" readonly>
                     </div>
                 </div>
