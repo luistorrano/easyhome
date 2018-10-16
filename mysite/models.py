@@ -8,7 +8,7 @@ from django.conf import settings
 from jsonfield import JSONField
 import json
 class Usuario(AbstractUser):
-    
+    ##todo__ incluir data de nascimento
     GENEROS = (
         ('M', 'Masculino'),
         ('F', 'Feminino'),
@@ -33,20 +33,6 @@ class Usuario(AbstractUser):
     mensagem = JSONField(
         null=True, blank=True
     )
-    cidade = models.CharField(
-        max_length=255,
-        default='sp',
-        null=True,
-        blank=True,
-        help_text="Para uma melhor localização no mapa, \
-        preencha sem abreviações. Ex: Belo Horizonte"
-        )
-    estado = models.CharField(
-        max_length=2,
-        null=True, 
-        blank=True,
-        choices=STATE_CHOICES
-        )
     telefone = models.CharField(
         'Telefone',
         max_length=15
@@ -137,9 +123,9 @@ class Republica(models.Model):
         null=False,
         blank=False
         )
-    imagens = models.ImageField(
+    imagens = models.FileField(
         'Fotos',
-        upload_to='imagens/'
+        upload_to='media/imagens/'
         )
     data_registro = models.DateField(
         'Registrado em',

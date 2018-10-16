@@ -18,8 +18,8 @@ class RepublicaAdmin(admin.ModelAdmin):
 
 
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['endereco','estado','cidade','telefone','rg','cpf','genero','tipo_acesso','email','data_registro']
-    search_fields = ['endereco','estado','cidade','telefone','rg','cpf']
+    list_display = ['endereco','telefone','rg','cpf','genero','tipo_acesso','email','data_registro']
+    search_fields = ['endereco','telefone','rg','cpf']
 
 
 admin.site.register(Republica, RepublicaAdmin)

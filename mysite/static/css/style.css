@@ -52,3 +52,9 @@
         a[type="submit"] {
             -webkit-appearance: none;
         }
+
+
+        .responsive {
+            width: 100%;
+            height: auto;
+        }

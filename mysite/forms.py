@@ -8,10 +8,9 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = Usuario
-        fields = ('username','password1','password2', 'email','endereco','cidade','estado','telefone','rg', 'cpf','genero','tipo_acesso', 'imagem')
+        fields = ('username','password1','password2','nome', 'email','endereco','telefone','rg', 'cpf','genero','tipo_acesso', 'imagem')
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['estado'].widget.attrs['class'] = 'form-control'
         self.fields['genero'].widget.attrs['class'] = 'form-control'
         self.fields['tipo_acesso'].widget.attrs['class'] = 'form-control'
 
@@ -31,10 +30,10 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = Usuario
-        fields = ('username', 'email','endereco','mensagem','cidade','estado','telefone','rg', 'cpf','genero','tipo_acesso', 'imagem')
+        fields = ('username', 'email','endereco','mensagem','telefone','rg', 'cpf','genero','tipo_acesso', 'imagem')
     def __init__(self, *args, **kwargs):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
-        self.fields['estado'].widget.attrs['class'] = 'form-control'
+
         self.fields['genero'].widget.attrs['class'] = 'form-control'
         self.fields['tipo_acesso'].widget.attrs['class'] = 'form-control'
         for field in self.fields:
@@ -73,10 +72,6 @@ class republicaForm(forms.ModelForm):
         max_length=254,
         help_text= 'Ex: Rua Taquari, 44 - Mooca'
         )
-    cidade = forms.CharField(
-        max_length=254,
-        help_text='Ex: São Paulo, São Caetano do Sul ...'
-        )
     tipo_imovel = forms.ChoiceField(
         choices=CHOICES,
         widget=forms.RadioSelect()
@@ -95,7 +90,7 @@ class republicaForm(forms.ModelForm):
         )
     class Meta:
         model = Republica
-        fields = ('nome','endereco','qtd_vagas','tipo_imovel','latitude','longitude','genero')
+        fields = ('nome','endereco','qtd_vagas','tipo_imovel','latitude','longitude','genero','imagens')
     def __init__(self, *args, **kwargs):
         super(republicaForm, self).__init__(*args, **kwargs)
         self.fields['genero'].widget.attrs['class'] = 'form-control'

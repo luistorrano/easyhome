@@ -18,11 +18,13 @@ from unicodedata import normalize
 
 
 def index(request):
+
     form = LatLngForm()
     return render(request,'index.html', {'form':form})
 
 @csrf_exempt
 def estudante(request):
+
     filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
     if request.POST:
         if request.POST.get('latitude') != "":    
@@ -57,9 +59,11 @@ def estudante(request):
         return redirect('index')
 @login_required(login_url='/login/')
 def cadastro_republica(request):
+    import pdb; pdb.set_trace()
     form = republicaForm()
     if request.POST:
-        form = republicaForm(request.POST)
+        files = request.FILES.getlist('imagens')
+        form = republicaForm(request.POST,files)
         if form.is_valid():
             rep = form.save(commit=False)
             cidade = request.POST.get('cidade').lower()
@@ -67,16 +71,16 @@ def cadastro_republica(request):
             rep.cidade = cidade
             rep.user = request.user
             rep.save()
-            
             return redirect('minhas-republicas')
     return render(request,'cadastro_republica.html',{'form':form })
 
 def cadastro_usuario(request):
+    
     if request.user.is_authenticated:
         return redirect('index')
     form = CustomUserCreationForm()
     if request.POST:
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             user = authenticate(username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password1'))
@@ -86,23 +90,25 @@ def cadastro_usuario(request):
 
 @login_required
 def perfil(request):
+    import pdb; pdb.set_trace()
     perfil = Usuario.objects.filter(username=request.user.username)
     return render(request,'perfil.html',{'perfil':perfil})
 
 @login_required(login_url='/login/')
 def alterar_usuario(request):
+    ##todo__verificar pq não está alterando gênero na alteração de usuário
     if request.POST:
+        import pdb; pdb.set_trace()
         user = Usuario.objects.get(username=request.POST.get('username'))
         user.email = request.POST.get('email')
         user.nome = request.POST.get('nome')
         user.endereco = request.POST.get('endereco')
         user.genero = request.POST.get('genero')
-        user.estado = request.POST.get('estado')
-        user.cidade = request.POST.get('cidade')
         user.telefone = request.POST.get('telefone')
         user.rg = request.POST.get('rg')
         user.cpf = request.POST.get('cpf')
         user.save()
+        return redirect('perfil')
     user = Usuario.objects.filter(username=request.user.username)
     estado = CustomUserCreationForm()
     form = user[0]
@@ -110,12 +116,14 @@ def alterar_usuario(request):
 
 @login_required(login_url='/login/')
 def excluir_conta(request):
+
     user = Usuario.objects.get(username=request.user.username)
     user.delete()
     return redirect('index')
     
 @login_required(login_url='/login/')
 def minhas_republicas(request):
+
     if request.user.tipo_acesso == 'P':
         republicas = Republica.objects.filter(user=request.user)
     else:
@@ -141,6 +149,7 @@ def loginUsuario(request):
 
 @login_required(login_url='/login/')
 def logoutUsuario(request):
+
     if request.method == 'GET':
         if request.user.is_authenticated:
             logout(request)
@@ -160,6 +169,7 @@ def perfil_republica(request,republica_id):
 
 @login_required(login_url='/login/')
 def excluir_republica(request,republica_id):
+
     rep = Republica.objects.filter(id=republica_id)
     rep = rep[0]
     if rep:
@@ -169,10 +179,14 @@ def excluir_republica(request,republica_id):
 
 @login_required(login_url='/login/')
 def alterar_republica(request,republica_id):
+    import pdb; pdb.set_trace()
+    ##todo__ fazer a alteração dos dados da república.
+    ##todo__ fazer o sistema reconhecer dados inválidos.
     return redirect('minhas-republicas')
     
 @login_required(login_url='/login/')
 def mensagens_republica(request,republica_id):
+
     republica = Republica.objects.filter(id=republica_id)
     republica = republica[0]
     form = msgFormUsuario()
@@ -195,6 +209,7 @@ def mensagens_republica(request,republica_id):
     return render(request,'mensagens_republica.html',{"form":form, "mensagens" : mensagens})
 
 def tirar_duvidas(request, republica_id):
+
     form = msgForm()
     republica = Republica.objects.filter(id=republica_id)
     republica = republica[0]
@@ -222,14 +237,11 @@ def tirar_duvidas(request, republica_id):
     return render(request,'tirar_duvidas.html',{'form': form, 'republica_id':republica_id , 'mensagens_existentes':mensagens})
 
 def busca(request):
+    ##todo__retornar msg de erro qd campos faltarem.
+    ##todo__ verificar validação dos campos
+    ##todo__ tirar obrigatoriedade do campo endereço (ajustar a logica para trazer todas as repúblicas caso não haja edereço, e então filtrar pelos outros campos.)
     form = formFiltros()
     if request.POST:
         republicas = busca_filtros(request.POST.get('latitude'), request.POST.get('longitude'),request.POST.get('qtd_vagas'),request.POST.get('tipo_imovel'), request.POST.get('genero'),request.POST.get('valor').replace("R$ ",""))
         return render(request,'resultados_busca.html', {'republicas':republicas})
     return render(request,'busca_filtros.html',{'form':form,'range':range(5000)})
-
-
-
-
-
-

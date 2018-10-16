@@ -1,6 +1,7 @@
 from django.urls import path,re_path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('^$', 'index', views.index),
     path('estudante/', views.estudante),
@@ -18,4 +19,4 @@ urlpatterns = [
     re_path('mensagens-republica/(?P<republica_id>[0-9])/$', views.mensagens_republica),
     re_path('tirar-duvidas/(?P<republica_id>[0-9])/$', views.tirar_duvidas),
     path('busca/', views.busca)
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

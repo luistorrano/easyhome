@@ -38,19 +38,12 @@
 
                     <div class="form-group col-sm-6 text-center">
                         <label for="id_genero_0">Gênero:</label>
+                        
                         <div class="radio">
-                            <label><input  type="radio" name="genero" value="M" required id="id_genero_0"> Masculino</label>
-                            <label><input type="radio" name="genero" value="F" required id="id_genero_1" selected> Feminino</label>
-                            <label><input type="radio" name="genero" value="O" required id="id_genero_1"> Outro</label>
+                            <label><input  type="radio" name="genero" value="M" required id="id_genero_0" {% if form.genero == 'M' %} checked {% endif %}> Masculino</label>
+                            <label><input type="radio" name="genero" value="F" required id="id_genero_1" {% if form.genero == 'F' %} checked {% endif %}> Feminino</label>
+                            <label><input type="radio" name="genero" value="O" required id="id_genero_1"{% if form.genero == 'O' %} checked {% endif %}> Outro</label>
                         </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    {{estado.estado}}
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade" value="{{form.cidade}}">
                     </div>
                     <div class="form-group col-sm-6">
                     <label for="id_telefone">Telefone:</label>
@@ -71,7 +64,7 @@
                 </div>
                 <div class="form-row mt-4">
                     <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" onclick="return confirm_click();" class="btn btn-primary">Salvar</button>
                 </div>
                 </div>
             </form>
@@ -93,6 +86,11 @@
                 $('#id_tipo_acesso').val("Estudante")
             }
         });
+
+
+        function confirm_click(){
+            return confirm("Tem certeza que deseja alterar seus dados?");
+        }
         </script>
 
 {% endblock %}
