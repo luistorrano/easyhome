@@ -9,6 +9,62 @@
     background-size: cover;
     height:100%;
     }
+
+    .card-img-top{
+        background: url("../images/estudante.png")
+    }
+
+    /* nav-bar */
+    .nav-bar{
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: .5rem 1rem;
+    }
+
+
+    .primary-color {
+        background-color: #4285f4!important;
+    }
+    /* fim do nav-bar */
+
+    /*tela de login */
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
+
+    /*login*/
+    
+
+
+    /* Footer */
+    .footer {
+    background-color: #4285f4!important;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    }
+     /* Footer */
+
+
+     
     .div-arredondada {
         background:whitesmoke;
          

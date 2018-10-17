@@ -3,20 +3,17 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Alteração de Usuário</h1>  
-    </div>
-</div>
-<div class="row justify-content-center mb-5">
-    <div class="col-sm-12 col-md-10 col-lg-8">
+<div class="row justify-content-center" style= "margin-right: 0px; margin-left: 0px; 
+padding-top: 4px ">
+        <div class="col-md-6 mx-auto">
+                <div class="card card-body">
+                        <h4 style="color: blue;"><strong> Alteração de Dados Usuário</strong></h4> 
             <form method="POST">{% csrf_token %}
                 <div id="mapa"></div>
-                <div class="form-row">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                                     <input type="hidden" name="password1" maxlength="254" class="has-popover form-control" placeholder="Digite sua senha" data-placement="right" data-container="body" required id="id_password1" value="{{form.password1}}">
                                 </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                                 <label for="id_username">Confirme a Senha:</label>
                                     <input type="hidden" name="password2" maxlength="254" class="has-popover form-control" placeholder="Confirme sua senha" data-placement="right" data-container="body" required id="id_password2" value="{{form.password2}}">
                                 </div>
@@ -37,21 +34,13 @@
                         <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{form.endereco}}">
                     </div>
 
-                    <div class="form-group col-sm-6 text-center">
+                    <div class="form-group col-sm-12">
                         <label for="id_genero_0">Gênero:</label>
                         <div class="radio">
                             <label><input  type="radio" name="genero" value="M" required id="id_genero_0"> Masculino</label>
                             <label><input type="radio" name="genero" value="F" required id="id_genero_1" selected> Feminino</label>
                             <label><input type="radio" name="genero" value="O" required id="id_genero_1"> Outro</label>
                         </div>
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    {{estado.estado}}
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade" value="{{form.cidade}}">
                     </div>
                     <div class="form-group col-sm-6">
                     <label for="id_telefone">Telefone:</label>
@@ -69,11 +58,12 @@
                             <label for="id_tipo_acesso">Eu sou:</label>
                             <input type="text" name="tipo_acesso" class="has-popover form-control" data-placement="right" data-container="body" required id="id_tipo_acesso" value="{{form.tipo_acesso}}" readonly>
                     </div>
+                    <div class="form-row mt-4">
+                            <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
                 </div>
-                <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
+                
                 </div>
             </form>
         </div>

@@ -3,25 +3,25 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Cadastro de Usuário</h1>  
-    </div>
-</div>
-<div class="row justify-content-center mb-5">
-    <div class="col-sm-12 col-md-10 col-lg-8">
+
+<div class="row justify-content-center" style= "margin-right: 0px; margin-left: 0px; 
+padding-top: 4px ">
+        <div class="col-md-6 mx-auto">
+                <div class="card card-body">
+                        <h4 style="color: blue;"><strong> Cadastro de Usuário</strong></h4> 
             <form method="POST">{% csrf_token %}
                 <div id="mapa"></div>
-                <div class="form-row">
+                
+
                     <div class="form-group col-sm-12">
                     <label for="id_username">Usuário:</label>
                         <input type="text" name="username" maxlength="254" class="has-popover form-control" placeholder="Digite um nome de usuário" data-placement="right" data-container="body" required id="id_username">
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
                             <label for="id_username">Senha:</label>
                                 <input type="password" name="password1" maxlength="254" class="has-popover form-control" placeholder="Digite sua senha" data-placement="right" data-container="body" required id="id_password1">
                             </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
                             <label for="id_username">Confirme a Senha:</label>
                                 <input type="password" name="password2" maxlength="254" class="has-popover form-control" placeholder="Confirme sua senha" data-placement="right" data-container="body" required id="id_password2">
                             </div>
@@ -38,7 +38,7 @@
                         <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco">
                     </div>
 
-                    <div class="form-group col-sm-6 text-center">
+                    <div class="form-group col-sm-12">
                         <label for="id_genero_0">Gênero:</label>
                         <div class="radio">
                             <label><input  type="radio" name="genero" value="M" required id="id_genero_0"> Masculino</label>
@@ -46,36 +46,29 @@
                             <label><input type="radio" name="genero" value="O" required id="id_genero_1"> Outro</label>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    {{form.estado}}
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade">
-                    </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
                     <label for="id_telefone">Telefone:</label>
                         <input type="tel" name="telefone" class="has-popover form-control" pattern="^\d({2})\d{1}-\d{4}-\d{4}$" placeholder="Ex: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone">
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
                             <label for="id_rg">RG:</label>
                                 <input type="text" name="rg" class="has-popover form-control"  placeholder="ex: 502883770" data-placement="right" data-container="body" required id="id_rg">
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_cpf">cpf:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_cpf">CPF:</label>
                                 <input type="text" name="cpf" class="has-popover form-control"  placeholder="ex: 47747277743" data-placement="right" data-container="body" required id="id_cpf">
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12">
                             <label for="id_tipo_acesso">Eu sou:</label>
                             {{form.tipo_acesso}}
                     </div>
+                    <div class="form-row mt-4">
+                            <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        </div>
+                        </div>
                 </div>
-                <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
-                </div>
-                </div>
+            
             </form>
         </div>
     </div>

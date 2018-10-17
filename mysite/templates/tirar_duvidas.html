@@ -9,17 +9,28 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-md-8 justify-content-center">
-        {% for mensagem in mensagens_existentes.mensagens %}
+        
             
-        {% if mensagem.usuario.0 == user.username %}
-
                 <div  style="border-radius: 1%;" class="row justify-content-center">
-                    <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario.0}}</button></span>     
-                    <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
+                    <div style="background:whitesmoke;" class="col-sm-12 col-md-10 col-lg-8 mb-5">
+                        
                         <form id="form" method="POST" action="{% url 'tirar-duvidas' republica_id %}">{% csrf_token %}                        
-                            <div class="div-arredondada">
-                                <p>{{mensagem.mensagem.0}}</p>
-                            </div>
+                        <div style="height: 200px; overflow:auto;">
+                            {% if mensagens_existentes %}
+                                {% for mensagem in mensagens_existentes.mensagens %}
+                                    {% if mensagem.usuario.0 == user.username %}
+                                        {% if mensagem.republica.0 == republica_id %}
+                                            {% for msg in mensagem.mensagem %}
+                                                <label class="mt-2">{{mensagem.usuario.0}}:</label> 
+                                        <div class="div-arredondada" style="background-color:lightblue;">
+                                            <p>{{msg}}</p>
+                                        </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                             <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
                             <input type="hidden" name="rep_id" value={{republica_id}}>
                             <div class="form-row mt-4">
@@ -30,10 +41,11 @@
                         </form>
                     </div>
                 </div>
-            {% endif %}
-        {% endfor %}
+         
+    
     </div>
 </div>
+<div class="col-md-2" style="padding-top: 19px;"></div>
     
     
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->

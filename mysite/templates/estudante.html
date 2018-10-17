@@ -2,32 +2,35 @@
 {% load staticfiles %}
 {% block content %}
 
-        <div class="row">  
-                <div class='col-md-2'></div>
-                <div class="col-md-8">
-                        <div class="map-responsive" id="mapa" style="border-radius:1%;"></div>
+        <div class="row" style="    margin-right: 0px;
+        margin-left: 0px;">  
+                <div class='col-md-8' style=" margin-top:20px;">
+                        <div class="map-responsive" id="mapa" style="border-radius:1%; margin-left: 20px;"></div>
                 </div>
-                <div class='col-md-2'></div>
-        </div>
-        <div class="row">
-            {% if republicas %}
-                {% for republica in republicas %}
-                    <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
-                        <a href="{% url 'perfil-republica' republica.id %}">
-                            <label>Nome da república:</label>
-                            {{republica.nome}}
-                        </a><br/>
-                        <label>Gênero aceito:</label>
-                        {{republica.genero}}<br/>
-                        <label>Quantidade de vagas:</label>
-                        {{republica.qtd_vagas}}<br/>
-                        <label>Tipo do imóvel:</label>
-                        {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+                    <div class='col-md-4' style=" margin-top:20px;">
+                        <div class="row">
+                            {% if republicas %}
+                                {% for republica in republicas %}
+                                    <div class="col-md-10 div-arredondada mb-2 mt-2 ml-2 mr-2" style="margin-right: 20px;">
+                                        <a href="{% url 'perfil-republica' republica.id %}">
+                                            <label>Nome da república:</label>
+                                            {{republica.nome}}
+                                        </a><br/>
+                                        <label>Gênero aceito:</label>
+                                        {{republica.genero}}<br/>
+                                        <label>Quantidade de vagas:</label>
+                                        {{republica.qtd_vagas}}<br/>
+                                        <label>Tipo do imóvel:</label>
+                                        {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+                                    </div>
+                                {% endfor %}    
+                            {% else %}
+                            <div class="alert alert-info" role="alert">
+                                    <strong>Não existem republicas proximas ao seu local.</strong>
+                                    </div>
+                            {% endif %}
                     </div>
-                {% endfor %}    
-            {% else %}
-                    <p>Não há repúblicas próximas do seu local.</p>
-            {% endif %}
+                </div>
         </div>
 
     <!-- Maps API Javascript -->

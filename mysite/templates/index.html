@@ -1,24 +1,42 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<div class="row">
-    <div class="col-xs-12">
-       Linha com 12 colunas em qualquer dispositivo
-    </div>
- </div>
 
-<form id="formlocal" method="POST" action="{% url 'estudante' %}">
- <div class="row">
-    <div class="col-md-6 col-sm-12">
-       <a type="button" href="{% url 'minhas-republicas' %}" class="btn btn-light" style="float: right;">Proprietário</a>
+
+ <div class="row" style="
+ top: 0;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ width: 200px;
+ margin: auto;
+ padding-bottom: 269px">
+ <div class="col-sm-12">
+    <form id="formlocal" method="POST" action="{% url 'estudante' %}">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top"  alt="Card image cap">
+            <div class="card-body">
+       <a type="button" href="{% url 'minhas-republicas' %}" class="btn btn-primary">Proprietário</a>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <button type="submit" id="estudante" class="btn btn-light" style="float: left;">Estudante</button>
+    </div>
+    </div>
+    <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+        <button type="submit" id="estudante" class="btn btn-light" >Estudante</button>
      </div>
+     </div>
+     </div>
+     <div class="col-sm-1"></div>
      <input type="hidden" name="latitude" id="lati" value="">
      <input type="hidden"  name="longitude" id="longi" value="">
+     </form>
  </div>
-</form>
+ </div>
 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
 
