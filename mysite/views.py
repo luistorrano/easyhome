@@ -24,7 +24,6 @@ def index(request):
 
 @csrf_exempt
 def estudante(request):
-
     filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
     if request.POST:
         if request.POST.get('latitude') != "":    
@@ -62,7 +61,7 @@ def cadastro_republica(request):
     import pdb; pdb.set_trace()
     form = republicaForm()
     if request.POST:
-        files = request.FILES.getlist('imagens')
+        files = request.FILES
         form = republicaForm(request.POST,files)
         if form.is_valid():
             rep = form.save(commit=False)
@@ -72,10 +71,17 @@ def cadastro_republica(request):
             rep.user = request.user
             rep.save()
             return redirect('minhas-republicas')
+        else:
+            if 'latitude' in form.errors:
+                form.errors['endereco'] = ["Digite um endereço válido e selecione na lista de endereços."]
+                form.errors.pop('latitude')
+                form.errors.pop('longitude')
+                print (form.errors)
+            return render(request,'cadastro_republica.html', {'errors': form.errors})
+            
     return render(request,'cadastro_republica.html',{'form':form })
 
 def cadastro_usuario(request):
-    
     if request.user.is_authenticated:
         return redirect('index')
     form = CustomUserCreationForm()
@@ -86,17 +92,17 @@ def cadastro_usuario(request):
             user = authenticate(username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password1'))
             login(request,user)
             return redirect('index')
+        else:
+            return render(request,'cadastro_usuario.html', {'errors': form.errors})
     return render(request,'cadastro_usuario.html',{'form':form})
 
 @login_required
 def perfil(request):
-    import pdb; pdb.set_trace()
     perfil = Usuario.objects.filter(username=request.user.username)
     return render(request,'perfil.html',{'perfil':perfil})
 
 @login_required(login_url='/login/')
 def alterar_usuario(request):
-    ##todo__verificar pq não está alterando gênero na alteração de usuário
     if request.POST:
         import pdb; pdb.set_trace()
         user = Usuario.objects.get(username=request.POST.get('username'))
@@ -116,14 +122,12 @@ def alterar_usuario(request):
 
 @login_required(login_url='/login/')
 def excluir_conta(request):
-
     user = Usuario.objects.get(username=request.user.username)
     user.delete()
     return redirect('index')
     
 @login_required(login_url='/login/')
 def minhas_republicas(request):
-
     if request.user.tipo_acesso == 'P':
         republicas = Republica.objects.filter(user=request.user)
     else:
@@ -131,7 +135,6 @@ def minhas_republicas(request):
     return render(request,'minhas_republicas.html',{'republicas':republicas})
     
 def loginUsuario(request):
-
     errors = ''
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -149,7 +152,6 @@ def loginUsuario(request):
 
 @login_required(login_url='/login/')
 def logoutUsuario(request):
-
     if request.method == 'GET':
         if request.user.is_authenticated:
             logout(request)

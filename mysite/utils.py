@@ -25,36 +25,57 @@ def encontrar_republica(lat, lng):
     
     return republicas
 def busca_filtros(latitude, longitude, qtd_vagas, tipo_imovel, genero, valor):
-    valor = valor.replace(',','.')
-    valor = Decimal(valor)
+    if valor:
+        valor = valor.replace(',','.')
+        valor = Decimal(valor)
     republicas = []
     precison = 1
     _range = PRECISION_MAP[precison]
-    lat = Decimal(latitude)
-    lng = Decimal(longitude)
+    import ipdb; ipdb.set_trace()
+    if latitude:
+        lat = Decimal(latitude)
+        lng = Decimal(longitude)
+        rep_loc = Republica.objects.filter(
+            latitude__gte=lat - (_range ), latitude__lte=lat + (_range ),
+            longitude__gte=lng - (_range ), longitude__lte=lng + (_range)
+        )
+        for rep in rep_loc:
+            if rep:
+                republicas.append(rep)
     
-    rep = Republica.objects.filter(
-        latitude__gte=lat - (_range ), latitude__lte=lat + (_range ),
-        longitude__gte=lng - (_range ), longitude__lte=lng + (_range)
-    )
-    if rep:
-        rep_tipo_imovel = rep.filter(tipo_imovel=tipo_imovel)
-        if rep_tipo_imovel:
-            rep_vagas = rep_tipo_imovel.filter(qtd_vagas__gte=qtd_vagas)
-            rep = rep_vagas
-            if rep_vagas:
-                rep_valor = rep_vagas.filter(valor__lte=valor)
-                rep = rep_valor
-                if rep_valor:
-                    rep_genero = rep_valor.filter(genero=genero)
-                    rep = rep_genero
-                else:
-                    rep = rep_vagas
-            else:
-                rep = rep_vagas
+    if tipo_imovel:
+        rep_tipo_imovel = Republica.objects.filter(tipo_imovel=tipo_imovel)
+        for rep in rep_tipo_imovel:
+            if rep:
+                republicas.append(rep)
+    if qtd_vagas:
+        rep_vagas = Republica.objects.filter(qtd_vagas__gte=qtd_vagas)
+        for rep in rep_vagas:
+            if rep:
+                republicas.append(rep)
+    if valor:
+        rep_valor = Republica.objects.filter(valor__lte=valor)
+        for rep in rep_valor:
+            if rep:
+                republicas.append(rep)
+    if genero:
+        rep_genero = Republica.objects.filter(genero=genero)
+        for rep in rep_genero:
+            if rep:
+                republicas.append(rep)
+    
+    
+    
+    for index,rep in enumerate(republicas):
+        republicas.pop(index)
+        if rep in republicas:
+            pass
         else:
-            rep = rep
+            if not rep:
+                pass
+            else:
+                republicas.append(rep)
 
-    return rep
+    return republicas
 #def enviar_mensagem(mensagem):
 

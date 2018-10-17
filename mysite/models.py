@@ -145,7 +145,6 @@ class Republica(models.Model):
     valor = models.DecimalField(
         max_digits=8,
         decimal_places=2,
-        default=0
     )
     comentarios = models.CharField(
         max_length=1000,

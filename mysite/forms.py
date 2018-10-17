@@ -90,7 +90,7 @@ class republicaForm(forms.ModelForm):
         )
     class Meta:
         model = Republica
-        fields = ('nome','endereco','qtd_vagas','tipo_imovel','latitude','longitude','genero','imagens')
+        fields = ('nome','endereco','email','qtd_vagas','tipo_imovel','latitude','longitude','genero','imagens','valor')
     def __init__(self, *args, **kwargs):
         super(republicaForm, self).__init__(*args, **kwargs)
         self.fields['genero'].widget.attrs['class'] = 'form-control'
