@@ -2,15 +2,10 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Busca Por Filtros</h1>  
-    </div>
-</div>
-<div class="row justify-content-center">
-<div class="col-md-8 justify-content-center">
-<div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
-    <div class="col-sm-12 col-md-10 col-lg-8">
+<div class="row justify-content-center mb-5">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                                <h4 style="color: blue;"><strong>Busca por Filtros</strong></h4>
             <form method="POST">{% csrf_token %}
                 <div id="mapa"></div>
                 <div class="form-row">
@@ -20,22 +15,22 @@
                         <input type="hidden" name="owner" maxlength="254" class="form-control" id="id_owner">
                     </div>
                     <div class="form-group col-sm-12">
-                        <label for="id_endereco">Endereço:</label>
+                        <label for="id_endereco"><strong>Endereço:</strong></label>
                         <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" id="id_endereco" autocomplete="off">
                     </div>
-                    <div class="form-group col-sm-4">
-                        <label for="id_qtd_vagas">Quantidade de vagas:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_qtd_vagas"><strong>Quantidade de vagas:</strong></label>
                         <input type="number" name="qtd_vagas" class="has-popover form-control" placeholder="Quantidade total de vagas" data-placement="right" data-container="body" id="id_qtd_vagas">
                     </div>
-                    <div class="form-group col-sm-6 text-center">
-                        <label for="id_tipo_imovel_0">Tipo imovel:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_tipo_imovel_0"><strong>Tipo imovel:</strong></label>
                         <div class="radio">
                             <label><input  type="radio" name="tipo_imovel" value="CS" id="id_tipo_imovel_0"> Casa</label>
                             <label><input type="radio" name="tipo_imovel" value="AP" id="id_tipo_imovel_1"> Apartamento</label>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6">
-                        <label for="id_genero">Gênero Aceito:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_genero"><strong>Gênero Aceito:</strong></label>
                         <select name="genero" class="form-control" id="id_genero">
                             <option value="" selected="">Selecione um Gênero</option>
                           
@@ -47,17 +42,20 @@
                           
                           </select>
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_valor">Valor:</label>
+                    <div class="form-group col-sm-12">
+                    <label for="id_valor"><strong>Valor:</strong></label>
                         <input type="range" class="has-popover form-control" min=1 max=5000 data-container="body" id="id_valor" list="valores" onchange="updateTextInput(this.value);">
                         <datalist id="valores">{% for r in range %}<option value="{{r}}" label="R$ {{r}}"></option>{% endfor %}</datalist>
                         <input type="text" id="textInput" name="valor">
                     </div>
                 </div>
                 <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+                    <div class="col-sm-3">
+                    <button type="submit" class="form-control btn btn-primary mb-3">Buscar</button>
                 </div>
+                <div class="col-sm-3">
+                        <a href="{% url 'perfil' %}" class="form-control btn btn-danger">Cancelar</a>
+                    </div>
                 </div>
             </form>
         </div>

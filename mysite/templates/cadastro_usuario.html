@@ -1,15 +1,13 @@
-
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Cadastro de Usuário</h1>  
-    </div>
-</div>
-
 <div class="row justify-content-center mb-5">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                        <h4 style="color: blue;"><strong> Cadastro de Usuário</strong></h4> 
+
+
         {% if errors %}  
         {% for key,value in errors.items %}
         <div class="alert alert-danger col-sm-8" style="display:inline;" role="alert">
@@ -17,87 +15,100 @@
             </div>
         {% endfor %}
           {% endif %}
+          
 
-    <div class="col-sm-12 col-md-10 col-lg-8">
+    
             <form method="POST" enctype="multipart/form-data">{% csrf_token %}
                 <div id="mapa"></div>
                 <div class="form-row">
                     <div class="form-group col-sm-12">
-                    <label for="id_username">Usuário:</label>
-                        <input type="text" name="username" maxlength="254" class="has-popover form-control" placeholder="Digite um nome de usuário" data-placement="right" data-container="body" required id="id_username">
+                    <label for="id_username"><strong>Usuário:</strong></label>
+                        <input type="text" name="username" maxlength="254" class="has-popover form-control" placeholder="Digite um nome de usuário" data-placement="right" data-container="body" required id="id_username" oninvalid="InvalidMsg(this);">
                     </div>
                     <div class="form-group col-sm-6">
-                            <label for="id_username">Senha:</label>
-                                <input type="password" name="password1" maxlength="254" class="has-popover form-control" placeholder="Digite sua senha" data-placement="right" data-container="body" required id="id_password1">
+                            <label for="id_username"><strong>Senha:</strong></label>
+                                <input type="password" name="password1" maxlength="254" class="has-popover form-control" placeholder="Digite sua senha" data-placement="right" data-container="body" required id="id_password1" oninvalid="InvalidMsg(this);">
                             </div>
                     <div class="form-group col-sm-6">
-                            <label for="id_username">Confirme a Senha:</label>
-                                <input type="password" name="password2" maxlength="254" class="has-popover form-control" placeholder="Confirme sua senha" data-placement="right" data-container="body" required id="id_password2">
+                            <label for="id_username"><strong>Confirme a Senha:</strong></label>
+                                <input type="password" name="password2" maxlength="254" class="has-popover form-control" placeholder="Confirme sua senha" data-placement="right" data-container="body" required id="id_password2" oninvalid="InvalidMsg(this);">
                             </div>
                     <div class="form-group col-sm-12">
-                            <label for="id_email">Email:</label>
-                            <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" required>
+                            <label for="id_email"><strong>Email:</strong></label>
+                            <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" required oninvalid="InvalidMsg(this);">
                     </div>
                     <div class="form-group col-sm-12">
-                            <label for="id_nome">Nome:</label>
-                                <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome">
+                            <label for="id_nome"><strong>Nome:</strong></label>
+                                <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" oninvalid="InvalidMsg(this);">
                             </div>
                     <div class="form-group col-sm-12">
-                        <label for="id_endereco">Endereço:</label>
-                        <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco">
+                        <label for="id_endereco"><strong>Endereço:</strong></label>
+                        <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" oninvalid="InvalidMsg(this);">
                     </div>
 
-                    <div class="form-group col-sm-6 text-center">
-                        <label for="id_genero_0">Gênero:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_genero_0"><strong>Gênero:</strong></label>
                         <div class="radio">
                             <label><input  type="radio" name="genero" value="M" required id="id_genero_0"> Masculino</label>
                             <label><input type="radio" name="genero" value="F" required id="id_genero_1"> Feminino</label>
                             <label><input type="radio" name="genero" value="O" required id="id_genero_1"> Outro</label>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    {{form.estado}}
+                    <div class="form-group col-sm-12">
+                    <label for="id_telefone"><strong>Telefone:</strong></label>
+                        <input type="tel" name="telefone" class="has-popover form-control" pattern="^\d({2})\d{1}-\d{4}-\d{4}$" placeholder="Ex: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone" oninvalid="InvalidMsg(this);">
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade">
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_telefone">Telefone:</label>
-                        <input type="tel" name="telefone" class="has-popover form-control" pattern="^\d({2})\d{1}-\d{4}-\d{4}$" placeholder="Ex: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone">
-                    </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_rg">RG:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_rg"><strong>RG:</strong></label>
                                 <input type="text" name="rg" class="has-popover form-control"  placeholder="ex: 502883770" data-placement="right" data-container="body" required id="id_rg">
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_cpf">cpf:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_cpf"><strong>CPF:</strong></label>
                                 <input type="text" name="cpf" class="has-popover form-control"  placeholder="ex: 47747277743" data-placement="right" data-container="body" required id="id_cpf">
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_tipo_acesso">Eu sou:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_tipo_acesso"><strong>Eu sou:</strong></label>
                             {{form.tipo_acesso}}
                     </div>
-                    <div class="form-group col-sm-6">
-                        <label for="id_tipo_acesso">Eu sou:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_tipo_acesso"><strong>Foto:</strong></label>
                         {{form.imagem}}
                 </div>
                 </div>
                 <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <div class="col-sm-3">
+                    <button type="submit" class="form-control btn btn-primary">Cadastrar</button>
                 </div>
+                <div class="col-sm-3">
+                    <a href="{% url 'login' %}" class="form-control btn btn-danger">Voltar</a>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+    
+</div>
+
 </div>
 
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript">
+    function InvalidMsg(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Por favor, preencha o campo');
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity('Por favor, entre com um dado válido');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+    </script>
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
 
 
 {% endblock %}
-

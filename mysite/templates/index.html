@@ -2,22 +2,31 @@
 {% load staticfiles %}
 {% block content %}
 
+
 <form id="formlocal" method="POST" action="{% url 'estudante' %}">
- <div class="row">
-    <div class="col-md-6 col-sm-12">
-       <a type="button" id="btnProprietario" href="{% url 'minhas-republicas' %}" class="btn btn-light" style="float: right;">Proprietário</a>
-    </div>
-    <div class="col-md-6 col-sm-12">
-        <button type="submit" id="estudante" class="btn btn-light" style="float: left;">Estudante</button>
-     </div>
+  <div class="row" style="margin-bottom: 239px; margin-top: 90px;">
+
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+        <a type="button" id="btnProprietario" href="{% url 'minhas-republicas' %}" class="btn btn-primary btn-lg btn-block">Locador</a>
+        <button type="submit" id="estudante" class="btn btn-secondary btn-lg btn-block" >Estudante</button>
+       
+        </div>
+        
+        </div>
+        
      <input type="hidden" name="latitude" id="lati" value="">
      <input type="hidden"  name="longitude" id="longi" value="">
- </div>
-</form>
+     </div>
+     </div>
+     
+    </div>
+    </form>
+  
+
 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 <script type="text/javascript">
-
-
   function getLocation()
   {
   if (navigator.geolocation)
@@ -34,7 +43,6 @@ function showPosition(position)
   $('#longi').val(position.coords.longitude);
   }
 window.onload = getLocation;
-
 window.onload = getLocation();
 var form = $('#formlocal');
 form.submit(function(){
@@ -52,9 +60,7 @@ $.ajax({
     }
   });
 });
-
 $("#btnProprietario").on('click',function(){
-
 {% if user.tipo_acesso == "E" %}
   alert("Esta àrea é destinada somente a proprietários de imóveis.")
   window.location.reload();
@@ -65,4 +71,3 @@ $("#btnProprietario").on('click',function(){
 });
   </script>
 {% endblock %}
-

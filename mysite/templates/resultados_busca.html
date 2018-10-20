@@ -1,26 +1,45 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-        <div class="row">
+<div class="row justify-content-center" style="margin-bottom: 255px">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                                <h4 style="color: blue;"><strong>Resultado da Busca</strong></h4>
             {% if republicas %}
                 {% for republica in republicas %}
-                    <div class="col-md-8 div-arredondada mb-2 mt-2 ml-2 mr-2">
+                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 4, 0, 1);">
                             
-                                    <label>Nome da república:</label>
+                                    <label><strong>Nome da república:</strong></label>
                                     <a href="{% url 'perfil-republica' republica.id %}">
                                          {{republica.nome}}
                                 </a><br/>
-                        <label>Gênero aceito:</label>
+                        <label><strong>Gênero aceito:</strong></label>
                         {{republica.genero}}<br/>
-                        <label>Quantidade de vagas:</label>
+                        <label><strong>Quantidade de vagas:</strong></label>
                         {{republica.qtd_vagas}}<br/>
-                        <label>Tipo do imóvel:</label>
+                        <label><strong>Tipo do imóvel:</strong></label>
                         {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
                     </div>
+
                 {% endfor %}    
-            {% else %}
-                    <p>Não há repúblicas próximas do seu local.</p>
+            {% else %}<div class="alert alert-info" role="alert">
+                    <strong><p>Não há repúblicas próximas do seu local.</strong></p>
+                    </div>
+                    <div class="form-row mt-4">
+                            <div class="col-sm-3">
+                                <a href="{% url 'busca' %}" class="form-control btn btn-danger">Voltar</a>
+                            </div>
+                            </div>
             {% endif %}
+            <div class="form-row mt-4">
+                <div class="col-sm-3">
+                    <a href="{% url 'busca' %}" class="form-control btn btn-danger">Voltar</a>
+                </div>
+                </div>
+        </div>
+        
+        </div>
         </div>
 
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->

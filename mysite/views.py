@@ -15,6 +15,11 @@ from django.contrib import messages
 import geopy.distance
 from datetime import datetime
 from unicodedata import normalize
+# chat/consumers.py
+from asgiref.sync import async_to_sync
+from channels.generic.websocket import WebsocketConsumer
+import json
+from channels.layers import get_channel_layer
 
 
 def index(request):
@@ -58,7 +63,6 @@ def estudante(request):
         return redirect('index')
 @login_required(login_url='/login/')
 def cadastro_republica(request):
-    import pdb; pdb.set_trace()
     form = republicaForm()
     if request.POST:
         files = request.FILES
@@ -104,7 +108,6 @@ def perfil(request):
 @login_required(login_url='/login/')
 def alterar_usuario(request):
     if request.POST:
-        import pdb; pdb.set_trace()
         user = Usuario.objects.get(username=request.POST.get('username'))
         user.email = request.POST.get('email')
         user.nome = request.POST.get('nome')
@@ -181,14 +184,12 @@ def excluir_republica(request,republica_id):
 
 @login_required(login_url='/login/')
 def alterar_republica(request,republica_id):
-    import pdb; pdb.set_trace()
     ##todo__ fazer a alteração dos dados da república.
     ##todo__ fazer o sistema reconhecer dados inválidos.
     return redirect('minhas-republicas')
     
 @login_required(login_url='/login/')
 def mensagens_republica(request,republica_id):
-
     republica = Republica.objects.filter(id=republica_id)
     republica = republica[0]
     form = msgFormUsuario()
@@ -200,7 +201,7 @@ def mensagens_republica(request,republica_id):
                 json_data = {}
                 break
             else:
-                json_data = { "mensagem" : [request.POST.get('mensagem')], "origem":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem":"rep_to_user","data":[datetime.now()]}
+                json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem":"rep_to_user","data":[datetime.now()]}
         if json_data != {}:
             republica.mensagem['mensagens'].append(json_data)
         republica.save()
@@ -211,32 +212,38 @@ def mensagens_republica(request,republica_id):
     return render(request,'mensagens_republica.html',{"form":form, "mensagens" : mensagens})
 
 def tirar_duvidas(request, republica_id):
-
-    form = msgForm()
-    republica = Republica.objects.filter(id=republica_id)
-    republica = republica[0]
-    msage = republica.mensagem
-    mensagem = republica.mensagem
-    json_data = {}
-    if request.POST:
-        for msg in republica.mensagem['mensagens']:
-            if msg['usuario'][0] == request.user.username and msg['tipo_mensagem'][0] == 'user_to_rep':
-                msg['mensagem'].append(request.POST.get('mensagem'))
-                republica.save()
-                json_data = {}
-                break
-            else:    
-                json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem": "user_to_rep","data":[datetime.now()]}
-        if json_data != {}:
-            republica.mensagem['mensagens'].append(json_data)
-            republica.save()
-    mensagens = []
-    for msg in mensagem['mensagens']:
-        if msg['usuario'][0] == request.user.username:
-            mensagens.append(msg)
+    ChatConsumer.connect()
+    #form = msgForm()   
+    #republica = Republica.objects.filter(id=republica_id)
+    #republica = republica[0]
+    #msage = republica.mensagem
+    #mensagem = republica.mensagem
+    #json_data = {}
+    #if request.POST:
+    #    if republica.mensagem:
+    #        for msg in republica.mensagem['mensagens']:
+    #            if msg['usuario'][0] == request.user.username and msg['tipo_mensagem'][0] == 'user_to_rep':
+    #                msg['mensagem'].append(request.POST.get('mensagem'))
+    #                republica.save()
+    #                json_data = {}
+    #                break
+    #            else:    
+    #                json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem": "user_to_rep","data":[datetime.now()]}
+    #    else:
+    #        json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem": "user_to_rep","data":[datetime.now()]}
+    #    if json_data != {}:
+    #        try:
+    #            republica.mensagem['mensagens'].append(json_data)
+    #        except Exception:
+    #            republica.mensagem = {'mensagens':[json_data]}
+    #        republica.save()
+    #mensagens = []
+    #if mensagem:
+    #    for msg in mensagem['mensagens']:
+    #        if msg['usuario'][0] == request.user.username:
+    #            mensagens.append(msg)
     
-    mensagens = {'mensagens':mensagens}
-    return render(request,'tirar_duvidas.html',{'form': form, 'republica_id':republica_id , 'mensagens_existentes':mensagens})
+    return render(request,'tirar_duvidas.html',{'room_name_json':republica_id})
 
 def busca(request):
     ##todo__retornar msg de erro qd campos faltarem.
@@ -247,3 +254,46 @@ def busca(request):
         republicas = busca_filtros(request.POST.get('latitude'), request.POST.get('longitude'),request.POST.get('qtd_vagas'),request.POST.get('tipo_imovel'), request.POST.get('genero'),request.POST.get('valor').replace("R$ ",""))
         return render(request,'resultados_busca.html', {'republicas':republicas})
     return render(request,'busca_filtros.html',{'form':form,'range':range(5000)})
+
+class ChatConsumer(WebsocketConsumer):
+    def connect(self, user, republica):
+        self.room_name = str(user.username)+str(republica)#self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = 'tirar-duvidas_%s' % self.room_name
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        self.accept()
+
+    def disconnect(self, close_code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket
+    def receive(self, text_data):
+    
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        # Send message to room group
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
+
+    # Receive message from room group
+    def chat_message(self, event):
+        message = event['message']
+
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({
+            'message': message
+        }))

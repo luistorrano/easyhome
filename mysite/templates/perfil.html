@@ -1,73 +1,65 @@
-
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
 {%for p in perfil%}
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"></h1>  
-    </div>
-</div>
 <div class="row justify-content-center mb-5">
     <div class="col-sm-12 col-md-10 col-lg-8">
+                    <div class="card card-body">
+                            <h4 class="title"><strong>{{p.nome}}</strong></h4>
                 <div class="form-row">
-                    <img src="/media/{{p.imagem}}" class="responsive" style="max-width:400px;">
+                    <img src="/media/{{p.imagem}}" class="responsive" style="max-width:162px;">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-12">
-                        <label for="id_nome">Nome:</label>
+                        <label for="id_nome"><strong>Nome:</strong></label>
                         <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" value='{{p.nome}}' readonly>
                     </div>
                     <div class="form-group col-sm-12">
-                            <label for="id_email">Email:</label>
+                            <label for="id_email"><strong>Email:</strong></label>
                             <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" value="{{p.email}}"required readonly>
                     </div>
                     <div class="form-group col-sm-12">
-                        <label for="id_endereco">Endereço:</label>
+                        <label for="id_endereco"><strong>Endereço:</strong></label>
                         <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{p.endereco}}" readonly>
                     </div>
 
-                    <div class="form-group col-sm-6 text-center">
-                        <label for="id_genero_0">Gênero:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_genero_0"><strong>Gênero:</strong></label>
                         <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" readonly>
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    <input type="text" name="estado" class="has-popover form-control" data-placement="right" data-container="body" required id="id_estado" value="{{p.estado}}" readonly>
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade" value="{{p.cidade}}" readonly>
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_telefone">Telefone:</label>
+                    <div class="form-group col-sm-12">
+                    <label for="id_telefone"><strong>Telefone:</strong></label>
                         <input type="tel" name="telefone" class="has-popover form-control" placeholder="Ex: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone" value="{{p.telefone}}" readonly>
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_rg">RG:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_rg"><strong>RG:</strong></label>
                                 <input type="text" name="rg" class="has-popover form-control"  placeholder="ex: 502883770" data-placement="right" data-container="body" required id="id_rg" value="{{p.rg}}" readonly>
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_cpf">CPF:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_cpf"><strong>CPF:</strong></label>
                                 <input type="text" name="cpf" class="has-popover form-control"  placeholder="ex: 47747277743" data-placement="right" data-container="body" required id="id_cpf" value="{{p.cpf}}" readonly>
                     </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_tipo_acesso">Eu sou:</label>
+                    <div class="form-group col-sm-12">
+                            <label for="id_tipo_acesso"><strong>Eu sou:</strong></label>
                             <input type="text" name="tipo_acesso" class="has-popover form-control" data-placement="right" data-container="body" required id="id_tipo_acesso" value="{{p.tipo_acesso}}" readonly>
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col-sm-3">
-                    <a type="button" href="{% url 'alterar-usuario' %}" class="form-control btn btn-primary">Alterar Dados</a>
+                    <a href="{% url 'alterar-usuario' %}" class="form-control btn btn-primary">Alterar Dados</a>
                     </div>
                     <div class="col-sm-3">
                     <a id="id_excluir_conta" onclick="return confirm_click();" type="button" href="{% url 'excluir-conta' %}" class="form-control btn btn-danger">Excluir Conta</a>
                 </div>
+                <div class="col-sm-3">
+                        <a type="button" href="{% url 'index'%}" class="form-control btn btn-danger">Cancelar</a>
+                        </div>
                 </div>
         </div>
     </div>
 </div>
+
 {%endfor%}
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
@@ -90,13 +82,10 @@
             $("#id_genero").val("Outro")
         }
     });
-
     function confirm_click()
 {
 return confirm("Tem certeza que deseja excluir sua conta?");
 }
-
     </script>
 
 {% endblock %}
-

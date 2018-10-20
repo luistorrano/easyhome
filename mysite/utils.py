@@ -31,7 +31,6 @@ def busca_filtros(latitude, longitude, qtd_vagas, tipo_imovel, genero, valor):
     republicas = []
     precison = 1
     _range = PRECISION_MAP[precison]
-    import ipdb; ipdb.set_trace()
     if latitude:
         lat = Decimal(latitude)
         lng = Decimal(longitude)

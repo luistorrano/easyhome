@@ -8,42 +8,12 @@
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-md-8 justify-content-center">
-        
-            
-                <div  style="border-radius: 1%;" class="row justify-content-center">
-                    <div style="background:whitesmoke;" class="col-sm-12 col-md-10 col-lg-8 mb-5">
-                        
-                        <form id="form" method="POST" action="{% url 'tirar-duvidas' republica_id %}">{% csrf_token %}                        
-                        <div style="height: 200px; overflow:auto;">
-                            {% if mensagens_existentes %}
-                                {% for mensagem in mensagens_existentes.mensagens %}
-                                    {% if mensagem.usuario.0 == user.username %}
-                                        {% if mensagem.republica.0 == republica_id %}
-                                            {% for msg in mensagem.mensagem %}
-                                                <label class="mt-2">{{mensagem.usuario.0}}:</label> 
-                                        <div class="div-arredondada" style="background-color:lightblue;">
-                                            <p>{{msg}}</p>
-                                        </div>
-                                            {% endfor %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                            <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
-                            <input type="hidden" name="rep_id" value={{republica_id}}>
-                            <div class="form-row mt-4">
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary mb-3">Enviar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-         
-    
-    </div>
+
+    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+    <input id="chat-message-input" type="text" size="100"/><br/>
+    <input id="chat-message-submit" type="button" value="Send"/>
+
+
 </div>
     
     
@@ -59,5 +29,39 @@
              $('#recolher').slideToggle();
            });
         }
+        
+        var roomName = {{ room_name_json }};
+    
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/' + roomName + '/');
+    
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            document.querySelector('#chat-log').value += (message + '\n');
+        };
+    
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+    
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+    
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+    
+            messageInputDom.value = '';
+        };
     </script>
+    
    {% endblock %}

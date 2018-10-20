@@ -2,13 +2,10 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Cadastro de República</h1>  
-    </div>
-</div>
-<div class="row justify-content-center">
-<div class="col-md-8 justify-content-center">
+<div class="row justify-content-center mb-5">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                                <h4 style="color: blue;"><strong>Cadastro de República</strong></h4>
         {% if errors %}  
         {% for key,value in errors.items %}
         <div class="alert alert-danger" role="alert">
@@ -16,8 +13,7 @@
             </div>
         {% endfor %}
           {% endif %}
-<div style="border-radius: 1%; background-color:whitesmoke;" class="row justify-content-center">
-    <div class="col-sm-12 col-md-10 col-lg-8">
+
             <form method="POST" enctype="multipart/form-data">{% csrf_token %}
                 <div id="mapa"></div>
                 <div class="form-row">
@@ -27,58 +23,54 @@
                         <input type="hidden" name="owner" maxlength="254" class="form-control" id="id_owner">
                     </div>
                     <div class="form-group col-sm-12">
-                    <label for="id_nome">Nome:</label>
+                    <label for="id_nome"><strong>Nome:</strong></label>
                         <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o nome da república" data-placement="right" data-container="body" required id="id_nome">
                     </div>
                     <div class="form-group col-sm-12">
-                        <label for="id_endereco">Endereço:</label>
+                        <label for="id_endereco"><strong>Endereço:</strong></label>
                         <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" autocomplete="off">
                     </div>
                     <div class="form-group col-sm-12">
-                            <label for="id_email">Email:</label>
+                            <label for="id_email"><strong>Email:</strong></label>
                             <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" required>
                         </div>
-                    <div class="form-group col-sm-4">
-                        <label for="id_qtd_vagas">Quantidade de vagas:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_qtd_vagas"><strong>Quantidade de vagas:</strong></label>
                         <input type="number" name="qtd_vagas" class="has-popover form-control" placeholder="Quantidade total de vagas" data-placement="right" data-container="body" required id="id_qtd_vagas">
                     </div>
-                    <div class="form-group col-sm-6 text-center">
-                        <label for="id_tipo_imovel_0">Tipo imovel:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_tipo_imovel_0"><strong>Tipo imovel:</strong></label>
                         <div class="radio">
                             <label><input  type="radio" name="tipo_imovel" value="CS" required id="id_tipo_imovel_0"> Casa</label>
                             <label><input type="radio" name="tipo_imovel" value="AP" required id="id_tipo_imovel_1"> Apartamento</label>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_estado">Estado:</label>
-                    {{form.estado}}
-                    </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_cidade">Cidade:</label>
-                        <input type="text" name="cidade" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_cidade">
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="id_genero">Gênero Aceito:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_genero"><strong>Gênero Aceito:</strong></label>
                         {{form.genero}}
                     </div>
-                    <div class="form-group col-sm-6">
-                    <label for="id_valor">Valor:</label>
+                    <div class="form-group col-sm-12">
+                    <label for="id_valor"><strong>Valor:</strong></label>
                         <input type="number" name="valor" class="has-popover form-control" placeholder="0.00" data-container="body" required id="id_valor">
                     </div>
-                    <div class="form-group col-sm-6">
-                        <label for="id_imagens">Imagens:</label>
+                    <div class="form-group col-sm-12">
+                        <label for="id_imagens"><strong>Imagens:</strong></label>
                         <input name="imagens" accept="image/*" required="" id="id_imagens" type="file" multiple>    
                         </div>
                 </div>
                 <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary mb-3">Cadastrar</button>
+                    <div class="col-sm-3">
+                    <button type="submit" class="form-control btn btn-primary">Cadastrar</button>
                 </div>
+                <div class="col-sm-3">
+                        <button href="{% url 'perfil' %}" class="form-control btn btn-danger">Cancelar</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 </div>
     <!-- Maps API Javascript -->
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U&libraries=places"></script>
