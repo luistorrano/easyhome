@@ -2,45 +2,48 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="row">
-    <div class="col-12 text-center">
-        <h1 class="display-4"> Cadastro de República</h1>  
-    </div>
-</div>
-<div class="row justify-content-center">
-<div class="col-md-8 justify-content-center">
-    {% comment "" %}
-        
-    {% for mensagem in mensagens %}{% endcomment %}
+<div class="row justify-content-center mb-5">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                                <h4 style="color: blue;"><strong>Mensages Republica</strong></h4>
     
-    <div  style="border-radius: 1%;" class="row justify-content-center">
-            <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario}}</button></span>     
-    <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
         
-            <form id="form_{{republica.nome}}" method="POST">{% csrf_token %}
-                    
-                <div class="div-arredondada">
-                    
-                        <p>{{mensagem}}</p>
+    {% for mensagem in mensagens %}
 
-                </div>
-                
-                <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
-                <div class="form-row mt-4">
-                    <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary mb-3">Enviar</button>
-                </div>
-                </div>
+                <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario.0}}</button></span>     
+        <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
+            
+                <form id="form_{{republica.nome}}" method="POST">{% csrf_token %}
+                    {% for msg in mensagem.mensagem %}
+                        {% if mensagem.tipo_mensagem == "user_to_rep" %}
+                            <div class="div-arredondada" style="align:left;">
+                                    <label>{{mensagem.usuario.0}}: </label>
+                                    <p>{{msg}}</p>
+                            </div>
+                        {% else %}
+                            <div class="div-arredondada" style="align:right;">
+                                <label>{{mensagem.nome_republica.0}}: </label>
+                                <p>{{msg}}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
+                    <div class="form-row mt-4">
+                        <div class="col-sm-3">
+                        <button type="submit" class="form-control btn btn-primary mb-3">Enviar</button>
+                    </div>
+                    <div class="col-sm-3">
+                            <button type="submit" class="form-control btn btn-danger mb-3">Cancelar</button>
+                        </div>
+                    </div>
 
-            </form>
-            {% comment "" %}
-            {% endfor %}
-            {% endcomment %}
+                </form>
+            </div>
         </div>
     </div>
-    {% comment "" %}
+    
     {% endfor %}
-    {% endcomment %}
+    
 </div>
 </div>
     
