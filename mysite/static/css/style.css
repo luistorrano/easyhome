@@ -10,12 +10,8 @@
     height:100%;
     }
 
-    .card-img-top{
-        background: url("../images/estudante.png")
-    }
-
     /* nav-bar */
-    .nav-bar{
+    .navbar{
         display: flex;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
@@ -24,36 +20,33 @@
         -ms-flex-pack: justify;
         justify-content: space-between;
         padding: .5rem 1rem;
+        background-color: #4285f4;
     }
 
-
-    .primary-color {
-        background-color: #4285f4!important;
-    }
-    /* fim do nav-bar */
-
-    /*tela de login */
-    .card {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
+    .card-body {
+        border:solid 1px;
+        box-shadow: 10px 10px 10px 5px black;
     }
 
-    /*login*/
-    
+    .card-login{
+        width: 250px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: center;
+    }
 
+    .mb-5, .my-5 {
+        margin-bottom: 0rem !important;
+        margin-top: 1rem !important;
+    }
+
+    .title{
+        color: blue;
+        font-style:oblique;
+    }
 
     /* Footer */
     .footer {
-    background-color: #4285f4!important;
+    background-color: #4285f4;
     position: relative;
     left: 0;
     bottom: 0;
@@ -61,12 +54,15 @@
     color: white;
     text-align: center;
     }
+    .fab{
+        color: blanchedalmond!important;
+    }
+    .fa{
+        color: blanchedalmond!important;
+    }
      /* Footer */
-
-
-     
     .div-arredondada {
-        background:whitesmoke;
+        background:lightblue;
          
         -moz-border-radius:2%;
         -webkit-border-radius:2%;
@@ -107,4 +103,10 @@
         
         a[type="submit"] {
             -webkit-appearance: none;
+        }
+
+
+        .responsive {
+            width: 100%;
+            height: auto;
         }
