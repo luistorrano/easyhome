@@ -3,42 +3,40 @@
 {% load staticfiles %}
 {% block content %}
 {%for p in perfil%}
-
-<div class="row justify-content-center" style= "margin-right: 0px; margin-left: 0px; 
-padding-top: 4px ">
-        <div class="col-md-6 mx-auto">
-                <div class="card card-body">
-                        <h4 style="color: blue;"><strong>{{p.nome}}</strong></h4> 
+<div class="row justify-content-center mb-5">
+        <div class="col-sm-12 col-md-10 col-lg-8">
+                        <div class="card card-body">
+                                <h4 style="color: blue;"><strong>{{p.nome}}</strong></h4>
         <div id="mapa"></div>
         {% if user.tipo_acesso == "E" %}
         <div class="form-row">
             <div class="form-group col-sm-12">
-                <label for="id_nome">Nome da República:</label>
+                <label for="id_nome"><strong>Nome da República:</strong></label>
                 <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" value='{{p.nome}}' readonly>
             </div>
             <div class="form-group col-sm-12">
-                    <label for="id_email">Email da República:</label>
+                    <label for="id_email"><strong>Email da República:</strong></label>
                     <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" value="{{p.email}}"required readonly>
             </div>
             <div class="form-group col-sm-12">
-                <label for="id_endereco">Endereço:</label>
+                <label for="id_endereco"><strong>Endereço:</strong></label>
                 <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{p.endereco}}" readonly>
             </div>
 
             <div class="form-group col-sm-12">
-                <label for="id_genero_0">Gênero:</label>
+                <label for="id_genero_0"><strong>Gênero:</strong></label>
                 <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" readonly>
             </div>
             <div class="form-group col-sm-12">
-            <label for="id_qtd_vagas">Quantidade de Vagas:</label>
+            <label for="id_qtd_vagas"><strong>Quantidade de Vagas:</strong></label>
             <input type="text" name="qtd_vagas" class="has-popover form-control" data-placement="right" data-container="body" required id="id_qtd_vagas" value="{{p.qtd_vagas}}" readonly>
             </div>
             <div class="form-group col-sm-12">
-            <label for="id_tipo_imovel">Tipo de Imóvel:</label>
+            <label for="id_tipo_imovel"><strong>Tipo de Imóvel:</strong></label>
                 <input type="text" name="id_tipo_imovel" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_tipo_imovel" value="{% if p.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}" readonly>
             </div>
             <div class="form-group col-sm-12">
-            <label for="id_valor">Valor:</label>
+            <label for="id_valor"><strong>Valor:</strong></label>
                 <input type="text" name="valor" class="has-popover form-control" data-placement="right" data-container="body" required id="id_valor" value="{{p.valor}}" readonly>
             </div>
         </div>
@@ -46,32 +44,32 @@ padding-top: 4px ">
         <form method="POST">
         <div class="form-row">
                 <div class="form-group col-sm-12">
-                    <label for="id_nome">Nome da República:</label>
+                    <label for="id_nome"><strong>Nome da República:</strong></label>
                     <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" value='{{p.nome}}' >
                 </div>
                 <div class="form-group col-sm-12">
-                        <label for="id_email">Email da República:</label>
+                        <label for="id_email"><strong>Email da República:</strong></label>
                         <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" value="{{p.email}}"required >
                 </div>
                 <div class="form-group col-sm-12">
-                    <label for="id_endereco">Endereço:</label>
+                    <label for="id_endereco"><strong>Endereço:</strong></label>
                     <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{p.endereco}}" >
                 </div>
     
                 <div class="form-group col-sm-12">
-                    <label for="id_genero_0">Gênero:</label>
+                    <label for="id_genero_0"><strong>Gênero Aceito:</strong></label>
                     <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" >
                 </div>
                 <div class="form-group col-sm-12">
-                <label for="id_qtd_vagas">Quantidade de Vagas:</label>
+                <label for="id_qtd_vagas"><strong>Quantidade de Vagas:</strong></label>
                 <input type="text" name="qtd_vagas" class="has-popover form-control" data-placement="right" data-container="body" required id="id_qtd_vagas" value="{{p.qtd_vagas}}" >
                 </div>
                 <div class="form-group col-sm-12">
-                <label for="id_tipo_imovel">Tipo de Imóvel:</label>
+                <label for="id_tipo_imovel"><strong>Tipo de Imóvel:</strong></label>
                     <input type="text" name="id_tipo_imovel" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_tipo_imovel" value="{% if p.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}" >
                 </div>
                 <div class="form-group col-sm-12">
-                <label for="id_valor">Valor:</label>
+                <label for="id_valor"><strong>Valor:</strong></label>
                     <input type="text" name="valor" class="has-popover form-control" data-placement="right" data-container="body" required id="id_valor" value="{{p.valor}}" >
                 </div>
             </div>
@@ -79,17 +77,29 @@ padding-top: 4px ">
         <div class="form-row mt-4">
             {% if acesso == 'P' %}
             <div class="col-sm-3">
-                <button type="submit" class="form-control btn btn-primary">Alterar Dados</a>
+                <a type="button" href="{% url 'alterar-republica' p.id %}" class="form-control btn btn-primary">Alterar Dados</a>
                 </div>
                 
                     <div class="col-sm-3">
                         <a id="id_excluir_republica" onclick="return confirm_click();" type="button" href="{% url 'excluir-republica' p.id %}" class="form-control btn btn-danger">Excluir República</a>
                     </div>
+
+                    <div class="col-sm-3">
+                            <a type="button" href="{% url 'minhas-republicas'%}" class="form-control btn btn-danger">Cancelar</a>
+                            </div>
+                            
+
                 </form>
                 {% else %}
-                <div class="col-sm-3">
-                    <a id="tirar_duvidas" type="button" href="{% url 'tirar-duvidas' p.id %}" class="btn btn-primary">Tirar Dúvidas</a>
+                <div class="form-row mt-4">
+                        <div class="col-sm-3">
+                    <a id="tirar_duvidas" type="button" href="{% url 'tirar-duvidas' p.id %}" class="form-control btn btn-primary">Tirar Dúvidas</a>
                 </div>
+                
+                <div class="col-sm-3">
+                        <button href="{% url 'perfil' %}" class="form-control btn btn-danger">Cancelar</button>
+                    </div>
+                    </div>
                 {% endif %}
             </div>
         </div>
@@ -104,11 +114,21 @@ padding-top: 4px ">
     <script type="text/javascript">
         $(document).ready(function(){
             var tipo_imovel = $("#id_tipo_imovel").val()
+            var genero = $('#id_genero').val()
             if(tipo_imovel == 'AP'){
                 $('#id_tipo_imovel').val("Apartamento")
             }
             else{
                 $('#id_tipo_imovel').val("Casa")
+            }
+            if(genero =='A'){
+                $('#id_genero').val("Ambos")
+            }
+            if(genero =='M'){
+                $('#id_genero').val("Masculino")
+            }
+            if(genero =='F'){
+                $('#id_genero').val("Feminino")
             }
         });
         function confirm_click(){
