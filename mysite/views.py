@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import *
-from .models import Republica, Usuario
+from .models import Republica, Usuario, Mensagem
 from .utils import encontrar_republica, busca_filtros
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login,authenticate,logout
@@ -20,6 +20,8 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
 from channels.layers import get_channel_layer
+from easyhome.settings import BASE_DIR
+from django.urls import reverse
 
 
 def index(request):
@@ -29,7 +31,8 @@ def index(request):
 
 @csrf_exempt
 def estudante(request):
-    filename = '/home/luis/easyhome/mysite/static/json/pontos.json'
+    #import ipdb; ipdb.set_trace()
+    filename = BASE_DIR + '/mysite/static/json/pontos.json'
     if request.POST:
         if request.POST.get('latitude') != "":    
             republicas = encontrar_republica(request.POST.get('latitude'),request.POST.get('longitude'))
@@ -189,27 +192,36 @@ def alterar_republica(request,republica_id):
     return redirect('minhas-republicas')
     
 @login_required(login_url='/login/')
-def mensagens_republica(request,republica_id):
-    republica = Republica.objects.filter(id=republica_id)
-    republica = republica[0]
-    form = msgFormUsuario()
-    if request.POST:
-        for msg in republica.mensagem['mensagens']:
-            if msg['republica'][0] == request.user.username:
-                msg['mensagem'].append(request.POST.get('mensagem'))
-                republica.save()
-                json_data = {}
-                break
-            else:
-                json_data = { "mensagem" : [request.POST.get('mensagem')], "usuario":[request.user.username], "republica":[republica_id], "nome_republica":[republica.nome], "tipo_mensagem":"rep_to_user","data":[datetime.now()]}
-        if json_data != {}:
-            republica.mensagem['mensagens'].append(json_data)
-        republica.save()
+def mensagens_republica(request,republica_id, pergunta_id=None):
+    POST = request.POST
+    republica = Republica.objects.get(id=republica_id)
+    mensagens = Mensagem.objects.filter(republica=republica).order_by('pergunta_datetime')
+    usuario = request.user
+    #import ipdb; ipdb.set_trace()
+    if POST:
+        if usuario.tipo_acesso == 'E':
+            mensagem = Mensagem(
+                                republica = republica,
+                                pergunta = POST['mensagem'],
+                                usuario_pergunta = usuario
+                                )
+            mensagem.save()
+        elif usuario.tipo_acesso == 'P':
+            mensagem = Mensagem.objects.get(id=pergunta_id)
+            mensagem.resposta = POST['mensagem']
+            mensagem.resposta_datetime = datetime.now()
+            mensagem.save()
+
+        
+        return redirect(reverse('mensagens-republica', kwargs={'republica_id':republica_id}))
                 
-    rep = Republica.objects.filter(id=republica_id)
-    rep = rep[0]
-    mensagens = rep.mensagem['mensagens']
-    return render(request,'mensagens_republica.html',{"form":form, "mensagens" : mensagens})
+    
+    context = {
+        'mensagens': mensagens,
+        'republica': republica
+    }
+  
+    return render(request,'mensagens_republica.html', context)
 
 def tirar_duvidas(request, republica_id):
     ChatConsumer.connect()

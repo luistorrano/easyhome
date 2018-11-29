@@ -172,3 +172,29 @@ class Republica(models.Model):
     class Meta:
         verbose_name = 'República'
         verbose_name_plural = 'Repúblicas'
+
+
+class Mensagem(models.Model):
+    republica = models.ForeignKey(Republica, related_name='mensagem_republica', on_delete=models.CASCADE)
+    pergunta = models.TextField("Pergunta")
+    pergunta_datetime = models.DateTimeField("Quando foi realizada a Pergunta", auto_now_add=True)
+    usuario_pergunta = models.ForeignKey(Usuario, related_name='mensagem_usuario', on_delete=models.CASCADE)
+    resposta = models.TextField("Resposta Proprietario", blank=True, null=True)
+    resposta_datetime = models.DateTimeField("Quando foi Respondido", blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Mensagem'
+        verbose_name_plural = 'Mensagens'
+
+    def __str__(self):
+        return str(self.id)
+
+def get_image_filename(instance, filename):
+    title = instance.post.title
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename) 
+
+class ImagensRepublica(models.Model):
+    republica = models.ForeignKey(Republica, related_name='imagem_republica', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image')

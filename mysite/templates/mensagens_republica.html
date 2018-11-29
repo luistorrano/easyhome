@@ -9,40 +9,61 @@
 </div>
 <div class="row justify-content-center">
 <div class="col-md-8 justify-content-center">
-    
-        
-    {% for mensagem in mensagens %}
-        
-        <div  style="border-radius: 1%;" class="row justify-content-center">
-                <span><button id="botao" type="button" class="btn btn-primary">Mensagem de {{mensagem.usuario.0}}</button></span>     
-        <div id="recolher" class="col-sm-12 col-md-10 col-lg-8">
-            
-                <form id="form_{{republica.nome}}" method="POST">{% csrf_token %}
-                    {% for msg in mensagem.mensagem %}
-                        {% if mensagem.tipo_mensagem == "user_to_rep" %}
-                            <div class="div-arredondada" style="align:left;">
-                                    <label>{{mensagem.usuario.0}}: </label>
-                                    <p>{{msg}}</p>
-                            </div>
-                        {% else %}
+    <div  style="border-radius: 1%;" class="row justify-content-center">     
+        <div class="col-sm-12 col-md-10 col-lg-8">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    {% if mensagens %}
+                        {% for mensagem in mensagens %}
                             <div class="div-arredondada" style="align:right;">
-                                <label>{{mensagem.nome_republica.0}}: </label>
-                                <p>{{msg}}</p>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
-                    <div class="form-row mt-4">
-                        <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary mb-3">Enviar</button>
-                    </div>
-                    </div>
+                                <label>De: {{ mensagem.usuario_pergunta }}</label><br>
+                                <label>Quando: {{mensagem.pergunta_datetime }}</label>
+                                <p>Pergunta: {{ mensagem.pergunta|linebreaks }}</p>
 
-                </form>
+                                {% if mensagem.resposta %}
+                                    <label>Quando: {{mensagem.resposta_datetime }}</label>
+                                    <p>Resposta: {{ mensagem.resposta|linebreaks }}</p>
+                                {% elif request.user.tipo_acesso == 'P' %}
+                                    <form action="{% url 'mensagens-republica' republica.id mensagem.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <label>Resposta:</label>
+                                        <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite a Resposta" data-placement="right" data-container="body" id="id_mensagem"></textarea>
+                                        <div class="form-row mt-4">
+                                            <div class="col-sm-12">
+                                                <button type="submit" name="proprietario" class="btn btn-primary mb-3">Enviar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-danger alert-dismissable">
+                            <i class="fa fa-times-circle"></i>
+                            <strong>Atenção!</strong> Não há nenhuma mensagem
+                        </div>   
+                    {% endif %}
+                 
+                            
+                            {% if request.user.tipo_acesso == 'E' %}
+                            <form action="{% url 'mensagens-republica' republica.id %}" method="POST">
+                                {% csrf_token %}
+                                <textarea name="mensagem" cols="40" rows="1" class="has-popover form-control" placeholder="Digite uma mensagem" data-placement="right" data-container="body" id="id_mensagem"></textarea>
+                                <div class="form-row mt-4">
+                                    <div class="col-sm-12">
+                                        <button type="submit" name="estudante" class="btn btn-primary mb-3">Enviar</button>
+                                    </div>
+                                </div>
+                            </form>
+                            {% endif %}
+
+                        
+                    </div>
+                </div>
             </div>
-        </div>
+    </div>
     
-    {% endfor %}
     
 </div>
 </div>
@@ -55,7 +76,7 @@
     <script type="text/javascript">
         aparecer();
         function aparecer(){
-          $('#recolher').hide();
+          $('#recolher').show();
           $('#botao').click(function(){
              $('#recolher').slideToggle();
            });

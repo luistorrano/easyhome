@@ -90,10 +90,10 @@
 
                 </form>
                 {% else %}
-                <div class="form-row mt-4">
-                        <div class="col-sm-3">
-                    <a id="tirar_duvidas" type="button" href="{% url 'tirar-duvidas' p.id %}" class="form-control btn btn-primary">Tirar Dúvidas</a>
-                </div>
+                <div class="form-row mt-6">
+                    <div class="col-sm-3">
+                        <a id="tirar_duvidas" type="button" href="{% url 'mensagens-republica' p.id %}" class="form-control btn btn-primary">Tirar Dúvidas</a>
+                    </div>
                 
                 <div class="col-sm-3">
                         <button href="{% url 'perfil' %}" class="form-control btn btn-danger">Cancelar</button>
