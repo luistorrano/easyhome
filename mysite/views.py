@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import *
-from .models import Republica, Usuario, Mensagem
+from .models import Republica, Usuario, Mensagem, ImagensRepublica
 from .utils import encontrar_republica, busca_filtros
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login,authenticate,logout
@@ -72,11 +72,17 @@ def cadastro_republica(request):
         form = republicaForm(request.POST,files)
         if form.is_valid():
             rep = form.save(commit=False)
+            '''
             cidade = request.POST.get('cidade').lower()
             cidade = normalize('NFKD', cidade).encode('ASCII', 'ignore').decode('ASCII')
             rep.cidade = cidade
+            '''                
             rep.user = request.user
             rep.save()
+            
+            for i in request.FILES.getlist('imagens'):
+                imagem = ImagensRepublica(republica=rep, image=i)
+                imagem.save()
             return redirect('minhas-republicas')
         else:
             if 'latitude' in form.errors:

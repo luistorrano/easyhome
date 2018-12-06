@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Republica, Usuario, Mensagem
+from .models import Republica, Usuario, Mensagem, ImagensRepublica
 
 class RepublicaAdmin(admin.ModelAdmin):
     list_display = ['nome','endereco','qtd_vagas','tipo_imovel','data_registro']
@@ -25,3 +25,4 @@ class UsuarioAdmin(admin.ModelAdmin):
 admin.site.register(Republica, RepublicaAdmin)
 admin.site.register(Usuario,UsuarioAdmin)
 admin.site.register(Mensagem)
+admin.site.register(ImagensRepublica)
