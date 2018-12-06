@@ -196,5 +196,4 @@ def get_image_filename(instance, filename):
 
 class ImagensRepublica(models.Model):
     republica = models.ForeignKey(Republica, related_name='imagem_republica', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=get_image_filename,
-                              verbose_name='Image')
+    image = models.ImageField('Fotos', upload_to='media/imagens/')
