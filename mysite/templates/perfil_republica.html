@@ -3,8 +3,18 @@
 {% block content %}
 {%for p in perfil%}
 <div class="row justify-content-center mb-5">
+        
         <div class="col-sm-12 col-md-10 col-lg-8">
                         <div class="card card-body">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for i in p.imagem_republica.all %}
+                                    <div class="carousel-item {% if i == p.imagem_republica.first%}active{% endif %}">
+                                    <img class="d-block w-100" src="{{ i.image.url }}" alt="First slide">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                                 <h4 style="color: blue;"><strong>{{p.nome}}</strong></h4>
         <div id="mapa"></div>
         {% if user.tipo_acesso == "E" %}

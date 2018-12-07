@@ -47,7 +47,7 @@ SECRET_KEY = 'j45akd$4y-k6c)&u!&!2l2fw(z+#b3=dw$fj5$b(lao%j(h4ju'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -112,7 +112,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'easyhome',
-        'USER': 'gabriel',
+        'USER': 'root',
         'PASSWORD': 'Sheike161255',
         'HOST': '',
         'PORT': '',    
