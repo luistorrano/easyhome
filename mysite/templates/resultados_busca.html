@@ -7,8 +7,7 @@
                                 <h4 style="color: blue;"><strong>Resultado da Busca</strong></h4>
             {% if republicas %}
                 {% for republica in republicas %}
-                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                0 6px 20px 0 rgba(0, 4, 0, 1);">
+                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style='border:hidden 0px;'>
                             
                                     <label><strong>Nome da república:</strong></label>
                                     <a href="{% url 'perfil-republica' republica.id %}">

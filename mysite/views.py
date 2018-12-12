@@ -127,6 +127,7 @@ def alterar_usuario(request):
         user.cpf = request.POST.get('cpf')
         user.save()
         return redirect('perfil')
+    import ipdb; ipdb.set_trace()
     user = Usuario.objects.filter(username=request.user.username)
     estado = CustomUserCreationForm()
     form = user[0]
@@ -173,6 +174,11 @@ def logoutUsuario(request):
 
 @login_required(login_url='/login/')
 def perfil_republica(request,republica_id):
+    if request.method == "POST":
+        uri = request.get_raw_uri()
+        uri = uri.split('/')
+        uri = uri[4]
+        alterar = alterar_republica(request, uri)
     perfil = Republica.objects.filter(id=republica_id)
     if request.user.tipo_acesso == "E":
         
@@ -195,7 +201,26 @@ def excluir_republica(request,republica_id):
 def alterar_republica(request,republica_id):
     ##todo__ fazer a alteração dos dados da república.
     ##todo__ fazer o sistema reconhecer dados inválidos.
-    return redirect('minhas-republicas')
+    rep = Republica.objects.get(id=republica_id)
+    rep.nome = request.POST['nome']
+    rep.email = request.POST['email']
+    rep.endereco = request.POST['endereco']
+    gen = request.POST['genero']
+    if gen == "Masculino":
+        gen = "M"
+    elif gen == "Feminino":
+        gen = "F"
+    else:
+        gen = "A"
+    rep.genero = gen
+    rep.qtd_vagas = request.POST['qtd_vagas']
+    rep.tipo_imovel = request.POST['id_tipo_imovel']
+    valor = request.POST['valor']
+    valor = valor.split(',')
+    valor = valor[0]
+    rep.valor = valor
+    rep.save()
+    return ''#redirect('minhas-republicas')
     
 @login_required(login_url='/login/')
 def mensagens_republica(request,republica_id, pergunta_id=None):

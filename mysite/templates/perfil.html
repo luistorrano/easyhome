@@ -7,8 +7,8 @@
                     <div class="card card-body">
                             <h4 class="title"><strong>{{p.nome}}</strong></h4>
                 <div class="form-row">
-                    <img src="/media/{{p.imagem}}" class="responsive" style="max-width:162px;">
-                </div>
+                    <img src="/media/{{p.imagem}}" class="responsive" style="max-width:170px; max-height:180px">
+                </div><br/>
                 <div class="form-row">
                     <div class="form-group col-sm-12">
                         <label for="id_nome"><strong>Nome:</strong></label>
@@ -58,7 +58,7 @@
                 </div>
         </div>
     </div>
-</div>
+</div><br/>
 
 {%endfor%}
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
@@ -73,14 +73,15 @@
         else{
             $('#id_tipo_acesso').val("Estudante")
         }
-        switch(genero){
-            case 'M':
-            $("#id_genero").val("Masculino")
-            case 'F':
-            $("#id_genero").val("Feminino")
-            case 'O':
-            $("#id_genero").val("Outro")
-        }
+            if(genero =='O'){
+                $('#id_genero').val("Outro")
+            }
+            if(genero =='M'){
+                $('#id_genero').val("Masculino")
+            }
+            if(genero =='F'){
+                $('#id_genero').val("Feminino")
+            }
     });
     function confirm_click()
 {

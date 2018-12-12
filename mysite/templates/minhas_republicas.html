@@ -12,8 +12,7 @@
 
 
             {% for republica in republicas %}
-                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                                                                            0 6px 20px 0 rgba(0, 4, 0, 1);">
+                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style='border:hidden 0px;'>
                   
                     <label><strong>Nome da república:</strong></label>
                     <a href="{% url 'perfil-republica' republica.id %}">
@@ -33,16 +32,17 @@
                 </div> 
                               
             {% endfor %}
-            <div class="form-row mt-4">
+           
+        </div>
+    {% endif %}   
+     <div class="form-row mt-4">
                 
                     <div class="col-sm-3">
             <a href="{% url 'cadastrar-republica' %}" class="form-control btn btn-primary">Cadastrar República</a>
             </div>
             <div class="col-sm-3">
-                    <a href="{% url 'perfil' %}" class="form-control btn btn-danger mb-3">Cancelar</a>
+                    <a href="{% url 'index' %}" class="form-control btn btn-danger mb-3">Cancelar</a>
                 </div>
-        </div>
-    {% endif %}   
 
 </div>
 </div>

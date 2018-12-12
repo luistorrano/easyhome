@@ -50,7 +50,7 @@
             </div>
         </div>
         {% else %}
-        <form method="POST">
+        <form method="POST">{% csrf_token %}
         <div class="form-row">
                 <div class="form-group col-sm-12">
                     <label for="id_nome"><strong>Nome da República:</strong></label>
@@ -62,12 +62,12 @@
                 </div>
                 <div class="form-group col-sm-12">
                     <label for="id_endereco"><strong>Endereço:</strong></label>
-                    <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{p.endereco}}" >
+                    <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" value="{{p.endereco}}" readonly>
                 </div>
     
                 <div class="form-group col-sm-12">
                     <label for="id_genero_0"><strong>Gênero Aceito:</strong></label>
-                    <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" >
+                    <input type="text" name="genero" class="has-popover form-control" data-placement="right" data-container="body" required id="id_genero" value="{{p.genero}}" readonly>
                 </div>
                 <div class="form-group col-sm-12">
                 <label for="id_qtd_vagas"><strong>Quantidade de Vagas:</strong></label>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group col-sm-12">
                 <label for="id_tipo_imovel"><strong>Tipo de Imóvel:</strong></label>
-                    <input type="text" name="id_tipo_imovel" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_tipo_imovel" value="{% if p.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}" >
+                    <input type="text" name="id_tipo_imovel" maxlength="254" class="has-popover form-control" placeholder="Ex: São Paulo, São Caetano do Sul ..." data-placement="right" data-container="body" required id="id_tipo_imovel" value="{% if p.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}" readonly>
                 </div>
                 <div class="form-group col-sm-12">
                 <label for="id_valor"><strong>Valor:</strong></label>
@@ -86,7 +86,7 @@
         <div class="form-row mt-4">
             {% if acesso == 'P' %}
             <div class="col-sm-3">
-                <a type="button" href="{% url 'alterar-republica' p.id %}" class="form-control btn btn-primary">Alterar Dados</a>
+                <button type="submit"  class="form-control btn btn-primary">Alterar Dados</button>
                 </div>
                 
                     <div class="col-sm-3">
@@ -98,7 +98,6 @@
                             </div>
                             
 
-                </form>
                 {% else %}
                 <div class="form-row mt-6">
                     <div class="col-sm-3">
@@ -106,10 +105,12 @@
                     </div>
                 
                 <div class="col-sm-3">
-                        <button href="{% url 'perfil' %}" class="form-control btn btn-danger">Cancelar</button>
+                        <a href="{% url 'estudante' %}" class="form-control btn btn-danger">Cancelar</a>
                     </div>
                     </div>
                 {% endif %}
+                </form>
+
             </div>
         </div>
     </div>
@@ -141,7 +142,7 @@
             }
         });
         function confirm_click(){
-            return confirm("Tem certeza que deseja excluir sua conta?");
+            return confirm("Tem certeza que deseja excluir sua republica?");
         }
     </script>
 
