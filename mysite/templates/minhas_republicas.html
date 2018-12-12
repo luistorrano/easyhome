@@ -12,11 +12,10 @@
 
 
             {% for republica in republicas %}
-                <div class="col-md-12 mb-2 mt-2 ml-2 mr-2" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                                                                            0 6px 20px 0 rgba(0, 4, 0, 1);">
-                  
+                <div class="col-md-12 mb-3 mt-2 ml-2 mr-2 border border-secondary rounded" id="div-clicavel" style='border:hidden 0px;'>
+                  <div class="mt-3">
                     <label><strong>Nome da república:</strong></label>
-                    <a href="{% url 'perfil-republica' republica.id %}">
+                    <a id="test" href="{% url 'perfil-republica' republica.id %}">
                         {{republica.nome}}
                     </a><br/>
                     <label><strong>Gênero aceito:</strong></label>
@@ -28,21 +27,23 @@
                     <label><strong>Tipo do imóvel:</strong></label>
                     {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}<br/>
                     <label><strong>Valor:</strong></label><br/>
-                    {{republica.valor}}<br/>
-                    <a type="button" class="btn btn-primary" href="{% url 'mensagens-republica' republica.id %}" style="float:left">Mensagens</a>
+                    {{republica.valor}}<br/><br/>
+                    <a class="mb-3 btn btn-primary" href="{% url 'mensagens-republica' republica.id %}" style="float:left">Mensagens</a>
+                    </div>
                 </div> 
                               
             {% endfor %}
-            <div class="form-row mt-4">
+           
+        </div>
+    {% endif %}   
+     <div class="form-row mt-4">
                 
                     <div class="col-sm-3">
             <a href="{% url 'cadastrar-republica' %}" class="form-control btn btn-primary">Cadastrar República</a>
             </div>
             <div class="col-sm-3">
-                    <a href="{% url 'perfil' %}" class="form-control btn btn-danger mb-3">Cancelar</a>
+                    <a href="{% url 'index' %}" class="form-control btn btn-danger mb-3">Cancelar</a>
                 </div>
-        </div>
-    {% endif %}   
 
 </div>
 </div>
@@ -56,6 +57,8 @@
     <script src="{% static 'js/jquery-ui-1.8.2.custom.min.js' %}"></script>
     <script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
     <script type="text/javascript">
-        $()        
+         document.getElementById("div-clicavel").onclick = function() {
+            $("#teste").click()
+        };       
         </script>
    {% endblock %}
