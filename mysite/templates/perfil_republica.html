@@ -9,7 +9,7 @@
                         <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 {% for i in p.imagem_republica.all %}
-                                    <div class="carousel-item {% if i == p.imagem_republica.first%}active{% endif %}">
+                                    <div class="carousel-item mb-3 {% if i == p.imagem_republica.first%}active{% endif %}">
                                     <img class="d-block w-100" src="{{ i.image.url }}" alt="First slide">
                                     </div>
                                 {% endfor %}
@@ -19,7 +19,7 @@
         <div id="mapa"></div>
         {% if user.tipo_acesso == "E" %}
         <div class="form-row">
-            <div class="form-group col-sm-12">
+            <div class="form-group col-sm-12 ">
                 <label for="id_nome"><strong>Nome da República:</strong></label>
                 <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" value='{{p.nome}}' readonly>
             </div>
@@ -90,11 +90,11 @@
                 </div>
                 
                     <div class="col-sm-3">
-                        <a id="id_excluir_republica" onclick="return confirm_click();" type="button" href="{% url 'excluir-republica' p.id %}" class="form-control btn btn-danger">Excluir República</a>
+                        <a id="id_excluir_republica" onclick="return confirm_click();" href="{% url 'excluir-republica' p.id %}" class="form-control btn btn-danger">Excluir República</a>
                     </div>
 
                     <div class="col-sm-3">
-                            <a type="button" href="{% url 'minhas-republicas'%}" class="form-control btn btn-danger">Cancelar</a>
+                            <a href="{% url 'minhas-republicas'%}" class="form-control btn btn-danger">Cancelar</a>
                             </div>
                             
 

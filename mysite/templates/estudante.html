@@ -11,7 +11,7 @@ margin-left: 0px;">
                     {% if republicas %}
                         {% for republica in republicas %}
                             <div class="col-md-10 div-arredondada mb-2 mt-2 ml-2 mr-2" style="margin-right: 20px;">
-                                
+                                <div class="mt-2">
                                     <label>Nome da república:</label>
                                     <a href="{% url 'perfil-republica' republica.id %}">
                                     {{republica.nome}}
@@ -30,6 +30,7 @@ margin-left: 0px;">
                                 {{republica.qtd_vagas}}<br/>
                                 <label>Tipo do imóvel:</label>
                                 {% if republica.tipo_imovel == 'AP'%} Apartamento {% else %} Casa {% endif %}
+                                </div>
                             </div>
                         {% endfor %}    
                     {% else %}
