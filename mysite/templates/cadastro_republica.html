@@ -2,6 +2,15 @@
 {% load staticfiles %}
 {% block content %}
 
+<head>
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script src="{% static 'js/localization/messages_pt_BR.js' %}"></script>
+        <script src="{% static 'js/additional-methods.min.js' %}"></script>
+
+</head>
+
 <div class="row justify-content-center mb-5">
         <div class="col-sm-12 col-md-10 col-lg-8">
                         <div class="card card-body">
@@ -14,7 +23,8 @@
         {% endfor %}
           {% endif %}
 
-            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <form id="registerRepForm" method="POST" data-toggle="validator" onsubmit="return valida_form(this)"
+             role="form" enctype="multipart/form-data">{% csrf_token %}
                 <div id="mapa"></div>
                 <div class="form-row">
                     <div class="form-group col-sm-12">
@@ -70,8 +80,153 @@
         </div>
     </div>
 </div>
-
 </div>
+<script>
+
+        $(document).ready(function(){
+                $("#nome").keyup(function(){
+    
+                    if($("#nome").val()==''){
+                        $("#submit").attr("disabled", true);
+                    }
+                });
+        });
+            $("#registerRepForm").validate({
+                errorClass: 'errors',
+                     rules:{
+                        nome:{
+                                minlength : 8,
+                                maxlength: 100,
+                                required: true,
+                            },
+    
+                            email:{
+                                    required : true,
+                                    email: true,
+                                    maxlength: 40,
+                            },
+    
+                            endereco:{
+                                required: true,
+                                minlength: 10,
+                                maxlength: 255
+                            },
+    
+                            qtd_vagas:{
+                                required: true,
+                                digits: true
+                            },
+
+                            tipo_imovel:{
+                                required: true
+                            },
+                           
+                            id_genero:{
+                                required: true
+                            },
+
+                            valor:{
+                                required: true
+                            },
+    
+                            tipo_imovel:{
+                                    required: true
+                            },
+                            imagens:{
+                                required: true
+                            }
+                         },
+    
+                    messages:{
+    
+                             email:{
+                                 required: "Digite seu e-mail para contato."
+                             },
+    
+                             nome:{
+                                required: "Digite o nome de sua república.",
+                                 minlength:"Necessário ao menos 8 letras."
+                             },
+    
+                             endereco:{
+                                required: "Insira o endereço de sua republica.",
+                                 minlength:"Endereço inválido"
+                             },
+    
+                             qtd_vagas:{
+                                required: "Informe a quantidade de vagas.",
+                                digits: "Somente números são aceitos.",
+                                 minlength:"Número Inválido."
+                             },
+
+                             tipo_imovel:{
+                                 required: "Informe o tipo do seu imóvel."
+                             },
+    
+                             id_genero:{
+                                required: "Selecione uma opção de sexo aceito.",
+                             },
+
+                             valor:{
+                                 required: "Informe o valor da república."
+                             },
+    
+                             imagens:{
+                                required: "Insira ao menos uma foto para sua república. Quanto mais fotos, mais chances de ser visualizada.",
+                             }
+                         },
+             });
+             
+             
+       </script>
+    
+    <script type="text/javascript">
+        function valida_form(){
+            if(document.getElementById("id_nome").value.length ==  ""){
+                alert('Por favor, preencha o campo "Nome da República"');
+                document.getElementById("id_nome").focus();
+                return false
+            }
+            if(document.getElementById("id_endereco").value.length ==  ""){
+                alert('Por favor, preencha o campo "endereço."');
+                document.getElementById("id_endereco").focus();
+                return false
+            }
+            if(document.getElementById("id_email").value.length ==  ""){
+                alert('Por favor, preencha o campo "e-mail."');
+                document.getElementById("id_email").focus();
+                return false
+            }
+            if(document.getElementById("id_qtd_vagas").value.length ==  ''){
+                alert('Por favor, informe a quantidade de vagas disponiveis.');
+                document.getElementById("id_qtd_vagas").focus();
+                return false
+            }
+            if(document.getElementById("id_tipo_imovel_0").value.length ==  ''){
+                alert('Por favor, informe qual o tipo do seu imóvel.');
+                document.getElementById("id_tipo_imovel_0").focus();
+                return false
+            }
+            if(document.getElementById("id_genero").value.length ==  ''){
+                alert('Por favor, marque  uma opção no "gênero." ');
+                document.getElementById("id_genero").focus();
+                return false
+            }
+            if(document.getElementById("id_valor").value.length ==  ''){
+                alert('Por favor, informe o valor da sua república.');
+                document.getElementById("id_valor").focus();
+                return false
+            }
+            if(document.getElementById("id_imagens").value.length ==  ''){
+                alert('Por favor, informe ao menos uma imagem de sua república.');
+                document.getElementById("id_imagens").focus();
+                return false
+            }
+    
+    
+        }
+     </script>
+
     <!-- Maps API Javascript -->
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyASfM8yMN_z1DVkTFFAKRp1aigtWxjOi6U&libraries=places"></script>
     <script src="{% static 'js/mapa.js' %}"></script>
