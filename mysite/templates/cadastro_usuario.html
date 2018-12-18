@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
+<head>
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script src="{% static 'js/localization/messages_pt_BR.js' %}"></script>
+        <script src="{% static 'js/additional-methods.min.js' %}"></script>
+
+</head>
 
 <div class="row justify-content-center mb-5">
         <div class="col-sm-12 col-md-10 col-lg-8">
                         <div class="card card-body">
-                        <h4 style="color: blue;"><strong> Cadastro de Usuário</strong></h4> 
+                        <h4 style="color: blue;"><strong> Cadastro de Usuário</strong></h4>
 
 
         {% if errors %}  
@@ -18,32 +26,47 @@
           
 
     
-            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <form id="registerForm" method="POST" data-toggle="validator" onsubmit="return valida_form(this)"
+             role="form" enctype="multipart/form-data">{% csrf_token %}
                 <div id="mapa"></div>
                 <div class="form-row">
+
                     <div class="form-group col-sm-12">
-                    <label for="id_username"><strong>Usuário:</strong></label>
-                        <input type="text" name="username" maxlength="254" class="has-popover form-control" placeholder="Digite um nome de usuário" data-placement="right" data-container="body" required id="id_username" oninvalid="InvalidMsg(this);">
+                        <label for="id_username"><strong>Usuário:</strong></label>
+                            <input type="text" name="username" class="has-popover form-control" placeholder="Exemplo: usuario123"
+                               data-placement="right" data-container="body" id="id_username" required name="username">
                     </div>
+
                     <div class="form-group col-sm-6">
-                            <label for="id_username"><strong>Senha:</strong></label>
-                                <input type="password" name="password1" maxlength="254" class="has-popover form-control" placeholder="Digite sua senha" data-placement="right" data-container="body" required id="id_password1" oninvalid="InvalidMsg(this);">
-                            </div>
-                    <div class="form-group col-sm-6">
-                            <label for="id_username"><strong>Confirme a Senha:</strong></label>
-                                <input type="password" name="password2" maxlength="254" class="has-popover form-control" placeholder="Confirme sua senha" data-placement="right" data-container="body" required id="id_password2" oninvalid="InvalidMsg(this);">
-                            </div>
-                    <div class="form-group col-sm-12">
-                            <label for="id_email"><strong>Email:</strong></label>
-                            <input type="text" name="email" maxlength="254" class="has-popover form-control" placeholder="Ex: aluno@usjt.br" data-placement="right" data-container="body" required id="id_email" required oninvalid="InvalidMsg(this);">
+                        <label for="id_username"><strong>Senha:</strong></label>
+                            <input type="password" name="password1"  class="has-popover form-control"
+                                placeholder="Digite sua senha" data-placement="right" required name="password1" data-container="body" id="id_password1">
+                                    <span class="help-block">Mínimo de oito (8) digitos contendo letras maiusculas,
+                                                                         minusculas e caracateres especiais</span>
                     </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="id_username"><strong>Confirme a Senha:</strong></label>
+                            <input type="password" name="password2" class="has-popover form-control"
+                                placeholder="Repita sua senha" data-placement="right" required data-container="body" required id="id_password2">
+                    </div>
+
                     <div class="form-group col-sm-12">
-                            <label for="id_nome"><strong>Nome:</strong></label>
-                                <input type="text" name="nome" maxlength="254" class="has-popover form-control" placeholder="Digite o seu nome completo" data-placement="right" data-container="body" required id="id_nome" oninvalid="InvalidMsg(this);">
-                            </div>
+                        <label for="id_email"><strong>Email:</strong></label>
+                            <input type="email" name="email" class="has-popover form-control" placeholder="Exemplo: aluno@usjt.br"
+                             data-placement="right" data-container="body" required id="id_email">
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <label for="id_nome"><strong>Nome:</strong></label>
+                            <input type="text" name="nome" class="has-popover form-control"
+                                 placeholder="Exemplo: Fulano da Silva" data-placement="right" data-container="body" id="id_nome" required name="nome">
+                    </div>
+
                     <div class="form-group col-sm-12">
                         <label for="id_endereco"><strong>Endereço:</strong></label>
-                        <input type="text" name="endereco" maxlength="254" class="has-popover form-control" placeholder="Ex: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco" oninvalid="InvalidMsg(this);">
+                            <input type="text" name="endereco" class="has-popover form-control"
+                                placeholder="Exemplo: Rua Taquari, 44 - Mooca" data-placement="right" data-container="body" required id="id_endereco">
                     </div>
 
                     <div class="form-group col-sm-12">
@@ -54,31 +77,42 @@
                             <label><input type="radio" name="genero" value="O" required id="id_genero_1"> Outro</label>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12">
                     <label for="id_telefone"><strong>Telefone:</strong></label>
-                        <input type="tel" name="telefone" class="has-popover form-control" pattern="^\d({2})\d{1}-\d{4}-\d{4}$" placeholder="Ex: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone" oninvalid="InvalidMsg(this);">
+                        <input type="tel" name="telefone" class="has-popover form-control"
+                            placeholder="Exemplo: (11)99232-5522" data-placement="right" data-container="body" required id="id_telefone">
                     </div>
+
                     <div class="form-group col-sm-12">
                             <label for="id_rg"><strong>RG:</strong></label>
-                                <input type="text" name="rg" class="has-popover form-control"  placeholder="ex: 502883770" data-placement="right" data-container="body" required id="id_rg">
+                                <input type="text" name="rg" class="has-popover form-control"  placeholder="Exemplo: 502883770"
+                                    data-placement="right" data-container="body" required id="id_rg">
                     </div>
+
                     <div class="form-group col-sm-12">
                             <label for="id_cpf"><strong>CPF:</strong></label>
-                                <input type="text" name="cpf" class="has-popover form-control"  placeholder="ex: 47747277743" data-placement="right" data-container="body" required id="id_cpf">
+                                <input type="text" name="cpf" class="has-popover form-control"
+                                          placeholder=" Digite seu CPF, sem pontos e traços. Exemplo: 47747277743"
+                                    data-placement="right" data-container="body" required id="id_cpf">
                     </div>
+
                     <div class="form-group col-sm-12">
-                            <label for="id_tipo_acesso"><strong>Eu sou:</strong></label>
+                            <label for="id_tipo_acesso" required name="acesso" ><strong>Eu sou:</strong></label>
                             {{form.tipo_acesso}}
                     </div>
+
                     <div class="form-group col-sm-12">
-                        <label for="id_tipo_acesso"><strong>Foto:</strong></label>
+                        <label for="id_tipo_acesso" required name="imagem"><strong>Foto:</strong></label>
                         {{form.imagem}}
+                    </div>
                 </div>
-                </div>
+
                 <div class="form-row mt-4">
                     <div class="col-sm-3">
                     <button type="submit" class="form-control btn btn-primary">Cadastrar</button>
                 </div>
+                
                 <div class="col-sm-3">
                     <a href="{% url 'login' %}" class="form-control btn btn-danger">Voltar</a>
                     </div>
@@ -86,29 +120,228 @@
             </form>
         </div>
     </div>
-    
 </div>
+</div>
+<script>
 
-</div>
+    $(document).ready(function(){
+            $("#nome").keyup(function(){
+
+                if($("#nome").val()==''){
+                    $("#submit").attr("disabled", true);
+                }
+            });
+    });
+        $("#registerForm").validate({
+            errorClass: 'errors',
+                 rules:{
+                        username: {
+                                 required : true,
+                                 minlength : 6,
+                                 maxlength : 20
+                               },
+                        password1: {
+                                 required : true,
+                                 minlength : 8,
+                                 maxlength: 20
+
+                        },
+                        password2:{
+                                 required : true,
+                                 minlength : 8,
+                                 maxlength: 20,
+                                 equalTo: id_password1
+                        },
+
+                        email:{
+                                required : true,
+                                email: true,
+                                maxlength: 40,
+                        },
+
+                        nome:{
+                            minlength : 4,
+                            maxlength: 100,
+                            required: true,
+                        },
+
+                        endereco:{
+                            required: true,
+                            minlength: 6,
+                            maxlength: 70
+                        },
+
+                        telefone:{
+                            required: true,
+                            minlength:8,
+                            maxlength: 11,
+                            number: true
+                        },
+
+                        genero:{
+                                required: true
+                        },
+                        
+                        rg:{
+                                required: true,
+                                number: true,
+                                digits: true,
+                                minlength:8,
+                        },
+
+                        cpf:{
+                            cpfBR: true,
+                            digits: true,
+                            required: true
+                        },
+                        acesso:{
+                            required: true
+                        },
+                        imagem:{
+                            required: true
+                        }
+
+                     },
+
+                messages:{
+                         username:{
+                             required: "Digite o seu usuário.",
+                             minlength:"O campo deve ter no minimo 6 caracteres. Exemplo: estud1"
+                         },
+
+                         password1:{
+                            required: "Digite sua senha.",
+                            minlength:"Mínimo de 8 caracteres.",
+                         },
+
+                         password2:{
+                            required: "Digite novamente sua senha.",
+                             minlength:"Mínimo de 8 caracteres.",
+                             equalTo: "As senhas não são iguais."
+                         },
+
+                         email:{
+                             required: "Digite seu e-mail."
+                         },
+
+                         nome:{
+                            required: "Digite seu nome completo.",
+                            textonly: "Somente letras são aceitas.",
+                             minlength:"Necessário ao menos 4 letras."
+                         },
+
+                         endereco:{
+                            required: "Insira seu endereço.",
+                             minlength:""
+                         },
+
+                         telefone:{
+                            required: "Digite seu telefone.",
+                            digits: "Somente números são aceitos.",
+                             minlength:"Número Inválido."
+                         },
+
+                         genero:{
+                            required: "Selecione uma opção de sexo.",
+                         },
+
+                         rg:{
+                            required: "Digite seu R.G.",
+                            digits: "Somente números são aceitos.",
+                             minlength:""
+                         },
+
+                         cpf:{
+                            required: "Digite seu CPF, sem pontos e traços.",
+                             minlength:"",
+                             cpfBR: "CPF Inexistente. Insira um CPF Válido."
+                         },
+
+                         acesso:{
+                            required: "Selecione um tipo de acesso.",
+                         },
+
+                         imagem:{
+                            required: "Insira uma foto de usuário.",
+                         }
+                     },
+         });
+         
+         
+   </script>
+
+<script type="text/javascript">
+    function valida_form(){
+        if(document.getElementById("id_username").value.length ==  ""){
+            alert('Por favor, preencha o campo usuário');
+            document.getElementById("id_username").focus();
+            return false
+        }
+        if(document.getElementById("id_password1").value.length ==  ""){
+            alert('Por favor, preencha o campo "senha"');
+            document.getElementById("id_password1").focus();
+            return false
+        }
+        if(document.getElementById("id_password2").value.length ==  ""){
+            alert('Por favor, preencha o campo "confirme sua senha"');
+            document.getElementById("id_password2").focus();
+            return false
+        }
+        if(document.getElementById("id_nome").value.length ==  ""){
+            alert('Por favor, preencha o campo "nome"');
+            document.getElementById("id_nome").focus();
+            return false
+        }
+        if(document.getElementById("id_email").value.length ==  ""){
+            alert('Por favor, preencha o campo "e-mail"');
+            document.getElementById("id_email").focus();
+            return false
+        }
+        if(document.getElementById("id_endereco").value.length ==  ""){
+            alert('Por favor, preencha o campo "endereço"');
+            document.getElementById("id_endereco").focus();
+            return false
+        }
+        if(document.getElementById("id_telefone").value.length ==  ''){
+            alert('Por favor, preencha o campo "telefone"');
+            document.getElementById("id_telefone").focus();
+            return false
+        }
+        if(document.getElementById("id_genero_0").value.length ==  ''){
+            alert('Por favor, marque  uma opção no "gênero" ');
+            document.getElementById("id_genero_0").focus();
+            return false
+        }
+        if(document.getElementById("id_rg").value.length ==  ''){
+            alert('Por favor, preencha o campo R.G');
+            document.getElementById("id_rg").focus();
+            return false
+        }
+        if(document.getElementById("id_cpf").value.length ==  ''){
+            alert('Por favor, preencha o campo C.P.F');
+            document.getElementById("id_cpf").focus();
+            return false
+        }
+        if(document.getElementById("id_tipo_acesso").value.length ==  ''){
+            alert('Por favor, selecione seu tipo de acesso');
+            document.getElementById("id_tipo_acesso").focus();
+            return false
+        }
+        if(document.getElementById("imagem").value.length ==  ''){
+            alert('Por favor, selecione uma imagem');
+            document.getElementById("imagem").focus();
+            return false
+        }
+
+
+    }
+ </script>
 
     <!-- jQuery (necessario para os plugins Javascript do Bootstrap) -->
-    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-    <script type="text/javascript">
-    function InvalidMsg(textbox) {
+    <script src="{% static 'js/validator.min.js' %}"></script>
+    <script type="text/javascript"></script>
+    <!-- Inclusão das validações com o Plugin jQuery Validation e Bootstrap-->
+    <script type="text/javascript" src="{% static 'js/validacao.js' %}"></script>
     
-    if (textbox.value == '') {
-        textbox.setCustomValidity('Por favor, preencha o campo');
-    }
-    else if(textbox.validity.typeMismatch){
-        textbox.setCustomValidity('Por favor, entre com um dado válido');
-    }
-    else {
-        textbox.setCustomValidity('');
-    }
-    return true;
-}
-    </script>
     <script src="{% static 'bootstrap-4.1.3/dist/js/bootstrap.min.js' %}"></script>
-
-
 {% endblock %}
